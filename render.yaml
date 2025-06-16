@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: kong-aroy-backend
+    env: node
+    plan: free
+    buildCommand: cd backend && yarn install
+    startCommand: cd backend && node index.js
+    envVars:
+      - key: NODE_VERSION
+        value: 18
+
+  - type: web
+    name: kong-aroy-frontend
+    env: node
+    plan: free
+    buildCommand: cd frontend && yarn install && yarn build
+    startCommand: cd frontend && yarn start
+    envVars:
+      - key: NODE_VERSION
+        value: 18
+      - key: NEXT_PUBLIC_API
+        value: https://kong-aroy-backend.onrender.com

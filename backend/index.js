@@ -13,7 +13,7 @@ app.use(
   cors({
     // origin: "http://localhost:3000", // หรือชื่อ domain ของ frontend
     // origin: "192.168.1.8:3000", // หรือชื่อ domain ของ frontend
-    origin: "https://kong-aroy-sungnoen-frontend.onrender.com", // หรือชื่อ domain ของ frontend
+    origin: "https://www.xn--22cka6ea5cg1dxabb2gyc9e8e.com", // หรือชื่อ domain ของ frontend
     credentials: true,               // ✅ สำคัญ
   })
 );

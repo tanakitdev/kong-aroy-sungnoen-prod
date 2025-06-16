@@ -14,7 +14,7 @@ export const metadata = {
     siteName: "ของอร่อยสูงเนิน",
     images: [
       {
-        url: "https://www.xn--22cka6ea5cg1dxabb2gyc9e8e.com/og-image.jpg", // URL ของภาพ OG
+        url: "https://ของอร่อยสูงเนิน.com/og-image.jpg", // URL ของภาพ OG
         width: 1200,
         height: 630,
         alt: "ของอร่อยสูงเนิน",
@@ -27,7 +27,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "ของอร่อยสูงเนิน",
     description: "รวมร้านเด็ดในชุมชนที่คุณไม่ควรพลาด",
-    images: ["https://www.xn--22cka6ea5cg1dxabb2gyc9e8e.com/og-image.jpg"],
+    images: ["https://ของอร่อยสูงเนิน.com/og-image.jpg"],
   },
 }
 

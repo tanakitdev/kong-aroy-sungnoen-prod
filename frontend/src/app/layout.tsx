@@ -10,7 +10,7 @@ export const metadata = {
   openGraph: {
     title: "ของอร่อยสูงเนิน",
     description: "รวมร้านเด็ดในชุมชนที่คุณไม่ควรพลาด",
-    url: "https://www.xn--22cka6ea5cg1dxabb2gyc9e8e.com", // เปลี่ยนให้ตรงกับโดเมนของคุณ
+    url: "https://ของอร่อยสูงเนิน.com", // เปลี่ยนให้ตรงกับโดเมนของคุณ
     siteName: "ของอร่อยสูงเนิน",
     images: [
       {

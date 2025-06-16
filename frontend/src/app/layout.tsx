@@ -10,11 +10,11 @@ export const metadata = {
   openGraph: {
     title: "ของอร่อยสูงเนิน",
     description: "รวมร้านเด็ดในชุมชนที่คุณไม่ควรพลาด",
-    url: "https://kong-aroy-sungnoen-kyat.vercel.app", // เปลี่ยนให้ตรงกับโดเมนของคุณ
+    url: "https://www.xn--22cka6ea5cg1dxabb2gyc9e8e.com", // เปลี่ยนให้ตรงกับโดเมนของคุณ
     siteName: "ของอร่อยสูงเนิน",
     images: [
       {
-        url: "https://kong-aroy-sungnoen-kyat.vercel.app/og-image.jpg", // URL ของภาพ OG
+        url: "https://www.xn--22cka6ea5cg1dxabb2gyc9e8e.com/og-image.jpg", // URL ของภาพ OG
         width: 1200,
         height: 630,
         alt: "ของอร่อยสูงเนิน",
@@ -27,7 +27,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "ของอร่อยสูงเนิน",
     description: "รวมร้านเด็ดในชุมชนที่คุณไม่ควรพลาด",
-    images: ["https://kong-aroy-sungnoen-kyat.vercel.app/og-image.jpg"],
+    images: ["https://www.xn--22cka6ea5cg1dxabb2gyc9e8e.com/og-image.jpg"],
   },
 }
 

@@ -7,6 +7,13 @@ import axios from "@/lib/axios"
 
 const promoters = [
   {
+    _id: "n001",
+    p_name: "NINJA GO",
+    imageUrl: "https://res.cloudinary.com/dcqddx8ox/image/upload/v1750135454/LOGO_cuuosf.png",
+    description: "Ninja Go คือบริการเดลิเวอรี่อาหารในชุมชนของคุณ รับออเดอร์จากร้านดังในพื้นที่ กดติดตามเพจนี้ไว้ 📲 แล้วคุณจะไม่พลาดร้านเด็ด และโปรโมชันจาก Ninja Go!",
+    linkProfile: "https://www.facebook.com/profile.php?id=61577253848573",
+  },
+  {
     _id: "p001",
     p_name: "ติดต่อลงโฆษณา",
     imageUrl: "/noimgspon.png",
@@ -21,7 +28,6 @@ const promoters = [
     linkProfile: "/",
   },
 ]
-
 
 type Checkin = {
   _id: string;
@@ -184,6 +190,7 @@ export default function Home() {
                 </Link>
               ))}
             </div>
+
           </div>
         </div>
       </section>

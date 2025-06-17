@@ -135,6 +135,16 @@ export default function EditMenuPage() {
           className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
           {loading ? 'กำลังบันทึกการแก้ไข...' : 'บันทึกการแก้ไข'}
         </button>
+
+        <button
+          type="button"
+          disabled={loading}
+          className="bg-gray-600 text-white mx-2 py-2 px-4 rounded hover:bg-gray-700"
+          onClick={() => router.back()}
+        >
+          ย้อนกลับ
+        </button>
+
       </form>
     </div>
   )

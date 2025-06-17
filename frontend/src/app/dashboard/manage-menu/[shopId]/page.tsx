@@ -1,9 +1,10 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "@/lib/axios";
 import Link from "next/link";
+import { ChevronLeft } from "lucide-react";
 
 interface Menu {
   _id: string;
@@ -15,6 +16,8 @@ interface Menu {
 export default function ManageMenuPage() {
   const { shopId } = useParams();
   const [menus, setMenus] = useState<Menu[]>([]);
+
+  const router = useRouter();
 
   useEffect(() => {
     if (!shopId) return;
@@ -40,8 +43,19 @@ export default function ManageMenuPage() {
   };
 
   return (
-    <div className="p-4 max-w-2xl mx-auto">
+    <div className="p-4 max-w-4xl mx-auto">
       <div className="flex justify-between items-center mb-4">
+
+        <button
+          type="button"
+          className="bg-gray-600 text-white py-1 px-2 rounded hover:bg-gray-700"
+          onClick={() => router.back()}
+        >
+          <div className="flex items-center">
+            <ChevronLeft />  <span>ย้อนกลับ</span>
+          </div>
+        </button>
+
         <h1 className="text-xl font-bold">เมนูของร้าน</h1>
         <Link
           href={`/dashboard/add-menu/${shopId}?from=manage-menu`}
@@ -54,41 +68,42 @@ export default function ManageMenuPage() {
       {menus.length === 0 ? (
         <p className="text-gray-500 text-center">ยังไม่มีเมนูในร้านนี้</p>
       ) : (
-        <ul className="space-y-3">
+        <ul className="space-y-2">
           {menus.map((menu) => (
             <li
               key={menu._id}
-              className="flex items-center gap-4 border rounded-lg p-3 shadow-sm"
+              className="flex items-center gap-4 border rounded-sm p-1"
             >
               {menu.image ? (
                 <img
                   src={menu.image}
                   alt={menu.name}
-                  className="w-16 h-16 object-cover rounded border"
+                  className="w-24 h-24 object-cover rounded-sm border"
                 />
               ) : (
                 <img
                   src="/nopic.png"
                   alt="ไม่มีรูปเมนู"
-                  className="w-16 h-16 object-cover rounded border"
+                  className="w-16 h-16 object-cover rounded-sm border"
                 />
               )}
               <div className="flex-1">
                 <h2 className="text-base font-semibold">{menu.name}</h2>
                 <p className="text-sm text-gray-600">{menu.price} บาท</p>
               </div>
-              <div className="flex flex-col gap-1 items-end">
+              <div className="block space-x-4">
+                {/* <div className="flex flex-col gap-2 items-end"> */}
                 <Link
                   href={`/dashboard/edit-menu/${menu._id}?from=manage-menu&shopId=${shopId}`}
-                  className="text-sm text-blue-600 hover:text-blue-500 underline"
+                  className="text-sm text-blue-600 hover:text-blue-500 hover:underline"
                 >
                   แก้ไข
                 </Link>
                 <button
                   onClick={() => handleDelete(menu._id)}
-                  className="text-sm text-red-600 hover:text-red-500 underline"
+                  className="text-sm text-red-600 hover:text-red-500 hover:underline"
                 >
-                  ลบ
+                  ลบออก
                 </button>
               </div>
             </li>

@@ -4,6 +4,8 @@ import Navbar from "@/components/Navbar"
 import { Prompt } from 'next/font/google'
 import { AuthProvider } from '@/context/AuthContext'
 import Head from 'next/head'
+// import Link from "next/link"
+// import { Edit } from "lucide-react"
 
 export const metadata = {
   title: "ของอร่อยสูงเนิน",
@@ -53,6 +55,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <AuthProvider>
           <Navbar />
           {children}
+
+          {/* Floating Action Button */}
+          {/* <Link
+            href="/checkin"
+            className="fixed bottom-6 right-6 bg-orange-500 hover:bg-orange-600 text-white p-4 rounded-full shadow-lg transition"
+            title="เช็คอินร้านใหม่"
+          >
+            <div className="flex flex-col items-center">
+              <Edit size={28} />
+              <span className="text-[10px]">เพิ่มโพสต์</span>
+            </div>
+
+          </Link> */}
         </AuthProvider>
       </body>
     </html>

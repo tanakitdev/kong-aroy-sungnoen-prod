@@ -47,8 +47,8 @@ export default function Navbar() {
             </Link>
             {isLoggedIn ? (
               <>
-                <Link href="/dashboard" className="hover:text-orange-400">จัดการร้าน</Link>
-                <Link href="/profile" className="hover:underline">
+                <Link href="/dashboard" className="hover:text-orange-400">แนะนำร้าน</Link>
+                <Link href="/profile" className="hover:text-orange-400">
                   โปรไฟล์ของฉัน
                 </Link>
                 <button onClick={handleLoggedOut} className="hover:text-red-500">ออกจากระบบ</button>
@@ -78,7 +78,7 @@ export default function Navbar() {
               <Link href="/profile" onClick={() => setMenuOpen(false)} className="block hover:text-orange-600">
                 โปรไฟล์ของฉัน
               </Link>
-              <Link href="/dashboard" onClick={() => setMenuOpen(false)} className="block hover:text-orange-400">จัดการร้าน</Link>
+              <Link href="/dashboard" onClick={() => setMenuOpen(false)} className="block hover:text-orange-400">แนะนำร้าน</Link>
               <button onClick={() => { handleLoggedOut(); setMenuOpen(false) }} className="block hover:text-red-500">ออกจากระบบ</button>
             </>
           ) : (

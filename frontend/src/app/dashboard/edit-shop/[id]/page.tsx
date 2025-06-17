@@ -159,7 +159,19 @@ export default function EditShop() {
 
                     {loading ? "กำลังบันทึก..." : "บันทึก"}
                 </button>
+
+                <button
+                    type="button"
+                    disabled={loading}
+                    className="bg-gray-600 text-white mx-2 py-2 px-4 rounded hover:bg-gray-700"
+                    onClick={() => router.back()}
+                >
+                    ย้อนกลับ
+                </button>
+
             </form>
+
+
         </div>
     )
 }

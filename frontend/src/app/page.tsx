@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Search, Plus } from "lucide-react"
+import { Search, Edit } from "lucide-react"
 import axios from "@/lib/axios"
 
 const promoters = [
@@ -86,10 +86,10 @@ export default function Home() {
         {/* กล่องข้อความแสดงผลทุกจอ */}
         <div className="relative z-10 px-4 py-10 md:absolute md:inset-0 md:flex md:items-center md:justify-center md:text-white text-gray-600 text-center bg-orange-50 md:bg-transparent">
           <div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-2 drop-shadow">
+            <h1 className="text-4xl md:text-5xl font-bold mb-2">
               ของอร่อยสูงเนิน
             </h1>
-            <p className="text-sm md:text-xl drop-shadow">
+            <p className="text-sm md:text-xl">
               รวมร้านเด็ดในชุมชนที่คุณไม่ควรพลาด
             </p>
             <div className="flex justify-center md:mt-10 mt-4">
@@ -113,10 +113,10 @@ export default function Home() {
               <h2 className="text-2xl font-semibold text-gray-600">เช็คอินล่าสุด</h2>
               <Link
                 href="/checkin"
-                className="bg-blue-500 text-white px-2 py-1 rounded shadow hover:bg-blue-600"
+                className="bg-gray-500 text-white px-2 py-1 rounded shadow hover:bg-gray-600"
               >
                 <div className="flex">
-                  <Plus /><span>โพสต์</span>
+                  <Edit /><span className="pl-1">เพิ่มโพสต์</span>
                 </div>
               </Link>
             </div>
@@ -190,10 +190,22 @@ export default function Home() {
                 </Link>
               ))}
             </div>
-
           </div>
         </div>
       </section>
+
+      {/* Floating Action Button */}
+      {/* <Link
+        href="/checkin"
+        className="fixed bottom-6 right-6 bg-orange-500 hover:bg-orange-600 text-white p-4 rounded-full shadow-lg transition"
+        title="เช็คอินร้านใหม่"
+      >
+        <div className="flex flex-col items-center">
+          <Edit size={28} />
+          <span className="text-[10px]">เพิ่มโพสต์</span>
+        </div>
+
+      </Link> */}
     </main>
   )
 }

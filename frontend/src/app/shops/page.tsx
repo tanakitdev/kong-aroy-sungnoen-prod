@@ -12,10 +12,10 @@ export async function generateMetadata(): Promise<Metadata> {
       openGraph: {
         title: "ของอร่อยสูงเนิน",
         description: "รวมร้านเด็ดในชุมชนที่คุณไม่ควรพลาด",
-        url: "https://kong-aroy-sungnoen-kyat.vercel.app", // เปลี่ยนให้ตรงกับโดเมนของคุณ
+        url: "https://ของอร่อยสูงเนิน.com", // เปลี่ยนให้ตรงกับโดเมนของคุณ
         images: [
           {
-            url: "https://kong-aroy-sungnoen-kyat.vercel.app/og-image.jpg", // URL ของภาพ OG
+            url: "https://ของอร่อยสูงเนิน.com/og-image.jpg", // URL ของภาพ OG
             width: 1200,
             height: 630,
             alt: "ของอร่อยสูงเนิน",
@@ -26,7 +26,7 @@ export async function generateMetadata(): Promise<Metadata> {
         card: "summary_large_image",
         title: "ของอร่อยสูงเนิน",
         description: "รวมร้านเด็ดในชุมชนที่คุณไม่ควรพลาด",
-        images: ["https://kong-aroy-sungnoen-kyat.vercel.app/og-image.jpg"],
+        images: ["https://ของอร่อยสูงเนิน.com/og-image.jpg"],
       },
     }
   } catch (e) {

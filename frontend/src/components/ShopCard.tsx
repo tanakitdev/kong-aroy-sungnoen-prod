@@ -31,7 +31,7 @@ export default function ShopCard({ shop }: { shop: Shop }) {
       e.preventDefault()
       handleClick()
     }} className="cursor-pointer rounded-lg hover:bg-orange-50 transition">
-      <div className="bg-white rounded-lg shadow px-3 py-2 overflow-hidden">
+      <div className="bg-white rounded-lg shadow px-2 py-2 overflow-hidden">
         <div className="relative">
           <img
             src={shop.image}

@@ -5,7 +5,7 @@ import axios from "@/lib/axios"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { Combobox, Transition } from "@headlessui/react"
-import { Check, ChevronDown, Edit } from "lucide-react"
+import { Check, ChevronDown, Edit, MoveLeft } from "lucide-react"
 
 interface Shop {
     _id: string
@@ -25,6 +25,8 @@ export default function CheckinForm() {
     const router = useRouter()
 
     useEffect(() => {
+
+
         const fetchShops = async () => {
             try {
                 const res = await axios.get("/shops/search", {
@@ -230,6 +232,19 @@ export default function CheckinForm() {
                 </>}
 
             </button>
+
+            <button
+                type="button"
+                className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 ml-2"
+                disabled={uploading}
+                onClick={() => router.back()}
+            >
+                <div className="flex items-center">
+                    <MoveLeft /> <span>ย้อนกลับ</span>
+                </div>
+
+            </button>
+            
         </form>
     )
 }

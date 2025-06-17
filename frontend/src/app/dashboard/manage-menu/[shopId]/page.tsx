@@ -81,12 +81,12 @@ export default function ManageMenuPage() {
                   className="w-24 h-24 object-cover rounded-sm border"
                 />
               ) : (
-                <img
-                  src="/nopic.png"
-                  alt="ไม่มีรูปเมนู"
-                  className="w-24 h-24 object-cover rounded-sm border"
-                />
-                // <div className="flex items-center justify-center w-full h-full text-gray-400 text-sm">ไม่มีรูป</div>
+                <div className="flex items-center justify-center w-full h-full text-gray-400 text-sm">ไม่มีรูป</div>
+                // <img
+                //   src="/nopic.png"
+                //   alt="ไม่มีรูปเมนู"
+                //   className="w-24 h-24 object-cover rounded-sm border"
+                // />
               )}
               <div className="flex-1">
                 <h2 className="text-base font-semibold">{menu.name}</h2>

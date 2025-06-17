@@ -3,10 +3,15 @@ import "./globals.css"
 import Navbar from "@/components/Navbar"
 import { Prompt } from 'next/font/google'
 import { AuthProvider } from '@/context/AuthContext'
+import Head from 'next/head'
 
 export const metadata = {
   title: "ของอร่อยสูงเนิน",
   description: "รวมร้านอาหารในอำเภอสูงเนิน",
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico"
+  },
   openGraph: {
     title: "ของอร่อยสูงเนิน",
     description: "รวมร้านเด็ดในชุมชนที่คุณไม่ควรพลาด",
@@ -40,6 +45,10 @@ const prompt = Prompt({
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="th">
+      <Head>
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+      </Head>
       <body className={`${prompt.className}`}>
         <AuthProvider>
           <Navbar />

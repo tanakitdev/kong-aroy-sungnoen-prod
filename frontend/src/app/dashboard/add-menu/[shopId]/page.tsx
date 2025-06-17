@@ -43,10 +43,14 @@ export default function AddMenuPage() {
 
     try {
       setLoading(true)
-      // let imageUrl = null;
-      // if (file) {
-      const imageUrl = await uploadImageToCloudinary(file!);
-      // }
+      let imageUrl;
+      if (file) {
+        imageUrl = await uploadImageToCloudinary(file!);
+      } else {
+        imageUrl = null;
+      }
+
+      // const imageUrl = await uploadImageToCloudinary(file!);
 
       await axios.post("/menus", {
         name: name.trim(),

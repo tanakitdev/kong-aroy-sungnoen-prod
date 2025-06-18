@@ -18,7 +18,6 @@ export async function generateMetadata(
 
   try {
     const res = await fetch(`${API}/api/shops/${id}`, { cache: "no-store" });
-    // const res = await fetch(`https://kong-aroy-backend-1.onrender.com/api/shops/${id}`, { cache: "no-store" });
 
     // ✅ เช็คสถานะก่อน parse JSON
     if (!res.ok) throw new Error(`HTTP error ${res.status}`)

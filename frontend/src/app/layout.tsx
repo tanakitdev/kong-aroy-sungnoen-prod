@@ -17,11 +17,11 @@ export const metadata = {
   openGraph: {
     title: "ของอร่อยสูงเนิน",
     description: "รวมร้านเด็ดในชุมชนที่คุณไม่ควรพลาด",
-    url: "bit.ly/4l922Lc", // เปลี่ยนให้ตรงกับโดเมนของคุณ
+    url: "bit.ly/4l922Lc", 
     siteName: "ของอร่อยสูงเนิน",
     images: [
       {
-        url: "https://ของอร่อยสูงเนิน.com/og-image.jpg", // URL ของภาพ OG
+        url: "https://ของอร่อยสูงเนิน.com/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "ของอร่อยสูงเนิน",

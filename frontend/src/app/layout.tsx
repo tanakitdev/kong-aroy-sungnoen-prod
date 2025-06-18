@@ -4,6 +4,8 @@ import Navbar from "@/components/Navbar"
 import { Prompt } from 'next/font/google'
 import { AuthProvider } from '@/context/AuthContext'
 import Head from 'next/head'
+import Script from 'next/script'
+
 // import Link from "next/link"
 // import { Edit } from "lucide-react"
 
@@ -51,8 +53,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7442679079181049"
-     crossorigin="anonymous"></script>
+        <Script
+  async
+  src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7442679079181049"
+  crossOrigin="anonymous"
+/>
+       
       </Head>
       <body className={`${prompt.className}`}>
         <AuthProvider>

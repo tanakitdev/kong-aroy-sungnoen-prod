@@ -53,11 +53,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <Head>
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-
-
-
       </Head>
-
       <body className={`${prompt.className}`}>
         <Script
           async

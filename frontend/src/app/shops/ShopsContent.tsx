@@ -23,6 +23,8 @@ type Props = {
   shopLists: Shop[];
 }
 
+let lastScrollY = 0;
+
 export default function BrowseShopsPage({ shopLists }: Props) {
   const [shops, setShops] = useState<Shop[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -83,6 +85,7 @@ export default function BrowseShopsPage({ shopLists }: Props) {
         window.innerHeight + window.scrollY >= document.body.offsetHeight - 100;
 
       if (bottom && !isLoading && page < totalPages) {
+        lastScrollY = window.scrollY; // เก็บตำแหน่ง scroll ก่อนเพิ่มหน้า
         setPage((prev) => prev + 1);
       }
     };
@@ -114,7 +117,13 @@ export default function BrowseShopsPage({ shopLists }: Props) {
     } catch (err) {
       console.error("Error fetching shops:", err)
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
+      // restore scroll position
+      if (page > 1) {
+        setTimeout(() => {
+          window.scrollTo({ top: lastScrollY, behavior: "instant" }); // หรือ "smooth" ก็ได้
+        }, 50);
+      }
     }
   }
 

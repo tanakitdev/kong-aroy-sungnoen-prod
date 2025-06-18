@@ -2,6 +2,11 @@
 
 import { NextResponse } from 'next/server'
 
+interface Shop {
+  _id: string
+  updatedAt?: string
+}
+
 export async function GET() {
   const baseUrl = 'https://ของอร่อยสูงเนิน.com'
 
@@ -13,7 +18,7 @@ export async function GET() {
     '/contact',
   ]
 
-  let shops = []
+  let shops: Shop[] = []
   try {
     const res = await fetch('https://kong-aroy-sungnoen-backend.onrender.com/api/shops/all')
     if (res.ok) {
@@ -28,27 +33,27 @@ export async function GET() {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   ${staticUrls
-    .map(
-      (path) => `
+      .map(
+        (path) => `
     <url>
       <loc>${baseUrl}${path}</loc>
       <changefreq>weekly</changefreq>
       <priority>0.8</priority>
     </url>`
-    )
-    .join('')}
+      )
+      .join('')}
 
   ${shops
-    .map(
-      (shop: any) => `
+      .map(
+        (shop) => `
     <url>
       <loc>${baseUrl}/shop/${shop._id}</loc>
       <lastmod>${new Date(shop.updatedAt || Date.now()).toISOString()}</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.7</priority>
     </url>`
-    )
-    .join('')}
+      )
+      .join('')}
 </urlset>
 `
 

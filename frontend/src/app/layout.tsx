@@ -56,11 +56,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         
        
       </Head>
-      <Script
-  async
-  src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7442679079181049"
-  crossOrigin="anonymous"
-/>
+      
       <body className={`${prompt.className}`}>
         <AuthProvider>
           <Navbar />
@@ -79,6 +75,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
           </Link> */}
         </AuthProvider>
+
+        <Script
+  async
+  src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7442679079181049"
+  crossOrigin="anonymous"
+/>
       </body>
     </html>
   )

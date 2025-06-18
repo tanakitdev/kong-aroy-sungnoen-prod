@@ -43,7 +43,7 @@ export default async function ShopsWrapper() {
 
   const API = process.env.NEXT_PUBLIC_API_BASE_URL
 
-  const res = await fetch(`${API}/api/shops`, { cache: "no-store" });
+  const res = await fetch(`${API}/api/shops/all`, { cache: "no-store" });
 
   // ✅ เช็คสถานะก่อน parse JSON
   if (!res.ok) throw new Error(`HTTP error ${res.status}`)

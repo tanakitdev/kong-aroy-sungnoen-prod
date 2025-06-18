@@ -51,6 +51,16 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/all", async (req, res) => {
+  try {
+    const shops = await Shop.find({}).sort({ updatedAt: -1 }).exec()
+    res.json(shops)
+  } catch (err) {
+    console.error("Error:", err)
+    res.status(500).json({ message: "Server error" })
+  }
+})
+
 // routes/shopRoutes.js
 router.get("/categories", async (req, res) => {
   try {

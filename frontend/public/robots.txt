@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ของอร่อยสูงเนิน.com/api/sitemap

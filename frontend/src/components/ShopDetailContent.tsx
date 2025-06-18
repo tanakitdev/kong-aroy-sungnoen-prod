@@ -86,8 +86,8 @@ export default function ShopDetailContent({ shop, menus }: Props) {
 
                         <div>
                             <FacebookShareButton
+                                blankTarget={true}
                                 url={`https://ของอร่อยสูงเนิน.com/shop/${shop._id}`}
-                                quote={`https://ของอร่อยสูงเนิน.com/shop/${shop._id}`}
                                 hashtag={'#ของอร่อยสูงเนิน #ร้านอร่อยสูงเนิน'}
                             >
                                 <FacebookIcon size={32} round />

@@ -76,6 +76,21 @@ export default function BrowseShopsPage({ shopLists }: Props) {
     fetchShops()
   }, [debouncedSearch, category, status, page])
 
+  // Infinite Scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      const bottom =
+        window.innerHeight + window.scrollY >= document.body.offsetHeight - 100;
+
+      if (bottom && !isLoading && page < totalPages) {
+        setPage((prev) => prev + 1);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isLoading, page, totalPages]);
+
   const fetchShops = async () => {
     try {
       setIsLoading(true)
@@ -171,7 +186,7 @@ export default function BrowseShopsPage({ shopLists }: Props) {
         )}
 
         {/* Load More */}
-        {!isLoading && page < totalPages && (
+        {/* {!isLoading && page < totalPages && (
           <div className="text-center mt-6">
             <button
               onClick={() => {
@@ -182,7 +197,7 @@ export default function BrowseShopsPage({ shopLists }: Props) {
               โหลดเพิ่ม
             </button>
           </div>
-        )}
+        )} */}
       </div>
 
       {shopId && (

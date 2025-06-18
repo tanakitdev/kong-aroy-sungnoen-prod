@@ -23,38 +23,31 @@ export default function Navbar() {
     <nav className="bg-white border-b">
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center h-16">
-          {/* โลโก้ */}
-          {/* <Link href="/" className="text-2xl font-bold text-orange-500">ของอร่อยสูงเนิน</Link> */}
           <Link href="/" className="flex items-center gap-2">
-            {/* <Image
-              src="/logo-sungnoen.png"
-              alt="ของอร่อยสูงเนิน"
-              width={80}
-              height={48}
-              className="object-contain"
-            /> */}
-            <Image src="/logo_transparent.png" objectFit="objectFit" width={140} height={48} alt="โลโก้ ของอร่อยสูงเนิน"/>
-            {/* <span className="text-md font-bold text-[24px] text-gray-700 whitespace-nowrap">
-              ของอร่อย<span className="text-orange-500 underline">สูงเนิน</span>
-            </span> */}
+            <Image src="/logo_transparent.png" objectFit="objectFit" width={140} height={48} alt="โลโก้ ของอร่อยสูงเนิน" />
           </Link>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-4 mx-4">
-            <Link href="/shops" className="hover:text-orange-400 flex items-center gap-1">
+            <Link href="/shops" className="text-nowrap text-sm text-gray-700 hover:text-orange-400 flex items-center gap-1">
               <Search size={20} />
               ค้นหาร้านอาหาร
             </Link>
             {isLoggedIn ? (
               <>
-                <Link href="/dashboard" className="hover:text-orange-400">แนะนำร้าน</Link>
-                <Link href="/profile" className="hover:text-orange-400">
+                <Link href="/dashboard" className="text-nowrap text-sm text-gray-700 hover:text-orange-400">แนะนำร้าน</Link>
+
+                <Link href="/about" className="text-nowrap text-sm text-gray-700 hover:text-orange-400">เกี่ยวกับเรา</Link>
+                <Link href="/privacy-policy" className="text-nowrap text-sm text-gray-700 hover:text-orange-400">นโยบาย</Link>
+                <Link href="/contact" className="text-nowrap text-sm text-gray-700 hover:text-orange-400">ติดต่อเรา</Link>
+
+                <Link href="/profile" className="text-nowrap text-sm text-gray-700 hover:text-orange-400">
                   โปรไฟล์ของฉัน
                 </Link>
-                <button onClick={handleLoggedOut} className="hover:text-red-500">ออกจากระบบ</button>
+                <button onClick={handleLoggedOut} className="text-nowrap text-sm hover:text-red-500">ออกจากระบบ</button>
               </>
             ) : (
-              <Link href="/login" className="hover:text-orange-400">เข้าสู่ระบบ</Link>
+              <Link href="/login" className="text-nowrap text-sm hover:text-orange-400">เข้าสู่ระบบ</Link>
             )}
           </div>
 
@@ -73,20 +66,38 @@ export default function Navbar() {
       {/* Mobile Menu */}
       {menuOpen && (
         <div className="md:hidden px-4 pb-4 space-y-3 pt-6">
-          {isLoggedIn ? (
+
+          <Link href="/shops" onClick={() => setMenuOpen(false)} className="block hover:text-orange-600">
+            ค้นหาร้านอาหาร
+          </Link>
+
+          {isLoggedIn && (
             <>
-              <Link href="/profile" onClick={() => setMenuOpen(false)} className="block hover:text-orange-600">
-                โปรไฟล์ของฉัน
-              </Link>
               <Link href="/dashboard" onClick={() => setMenuOpen(false)} className="block hover:text-orange-400">แนะนำร้าน</Link>
-              <button onClick={() => { handleLoggedOut(); setMenuOpen(false) }} className="block hover:text-red-500">ออกจากระบบ</button>
             </>
-          ) : (
+          )}
+
+          <Link href="/about" onClick={() => setMenuOpen(false)} className="block hover:text-orange-600">เกี่ยวกับเรา</Link>
+          <Link href="/privacy-policy" onClick={() => setMenuOpen(false)} className="block hover:text-orange-600">นโยบาย</Link>
+          <Link href="/contact" onClick={() => setMenuOpen(false)} className="block hover:text-orange-600">ติดต่อเรา</Link>
+
+          {!isLoggedIn && (
             <>
               <Link href="/login" onClick={() => setMenuOpen(false)} className="block hover:text-orange-400">เข้าสู่ระบบ</Link>
               <Link href="/register" onClick={() => setMenuOpen(false)} className="block hover:text-orange-400">สมัครสมาชิก</Link>
             </>
           )}
+
+
+          {isLoggedIn &&
+            <>
+              <Link href="/profile" onClick={() => setMenuOpen(false)} className="block hover:text-orange-600">
+                โปรไฟล์ของฉัน
+              </Link>
+              <button onClick={() => { handleLoggedOut(); setMenuOpen(false) }} className="block hover:text-red-500">ออกจากระบบ</button>
+            </>
+          }
+
         </div>
       )}
     </nav>

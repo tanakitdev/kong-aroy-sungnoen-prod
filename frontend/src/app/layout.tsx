@@ -5,6 +5,7 @@ import { Prompt } from 'next/font/google'
 import { AuthProvider } from '@/context/AuthContext'
 import Head from 'next/head'
 import Script from 'next/script'
+import Footer from "@/components/Footer"
 
 // import Link from "next/link"
 // import { Edit } from "lucide-react"
@@ -19,7 +20,7 @@ export const metadata = {
   openGraph: {
     title: "ของอร่อยสูงเนิน",
     description: "รวมร้านเด็ดในชุมชนที่คุณไม่ควรพลาด",
-    url: "bit.ly/4l922Lc", 
+    url: "bit.ly/4l922Lc",
     siteName: "ของอร่อยสูงเนิน",
     images: [
       {
@@ -53,34 +54,26 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 
-        
-       
+
+
       </Head>
-      
+
       <body className={`${prompt.className}`}>
-        <AuthProvider>
-          <Navbar />
-          {children}
-
-          {/* Floating Action Button */}
-          {/* <Link
-            href="/checkin"
-            className="fixed bottom-6 right-6 bg-orange-500 hover:bg-orange-600 text-white p-4 rounded-full shadow-lg transition"
-            title="เช็คอินร้านใหม่"
-          >
-            <div className="flex flex-col items-center">
-              <Edit size={28} />
-              <span className="text-[10px]">เพิ่มโพสต์</span>
-            </div>
-
-          </Link> */}
-        </AuthProvider>
-
         <Script
-  async
-  src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7442679079181049"
-  crossOrigin="anonymous"
-/>
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7442679079181049"
+          crossOrigin="anonymous"
+        />
+        <AuthProvider>
+          <div className="flex flex-col min-h-screen">
+            <Navbar />
+            <main className="flex-1">
+              {children}
+
+            </main>
+            <Footer />
+          </div>
+        </AuthProvider>
       </body>
     </html>
   )

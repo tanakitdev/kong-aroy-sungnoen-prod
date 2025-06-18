@@ -98,32 +98,34 @@ export default function DashboardPage() {
               </div>
 
               {/* ปุ่ม */}
-              <div className="flex flex-col items-end gap-2 ml-4 py-2 px-2">
+              <div className="flex flex-col items-center justify-center min-h-[80px] md:min-h-[150px] md:space-y-2 pr-2 gap-2 ">
+                <Link
+                  href={`/dashboard/manage-menu/${shop._id}`}
+                  className="text-blue-500 text-xs md:text-sm hover:underline transition-all duration-200"
+                // className="w-20 text-center bg-gray-600 text-white text-xs px-3 py-1 rounded hover:bg-gray-700"
+                >
+                  จัดการเมนู
+                </Link>
+
                 <Link
                   href={`/dashboard/edit-shop/${shop._id}`}
-                  className="text-blue-500 text-xs md:text-lg hover:underline transition-all duration-200"
-                  // className="w-20 text-center bg-blue-600 text-white text-xs px-3 py-1 rounded hover:bg-blue-700"
+                  className="text-blue-500 text-xs md:text-sm hover:underline transition-all duration-200"
+                // className="w-20 text-center bg-blue-600 text-white text-xs px-3 py-1 rounded hover:bg-blue-700"
                 >
                   แก้ไข
                 </Link>
 
                 <button
                   onClick={() => handleDeleteShop(shop._id)}
-                  className="text-blue-500 text-xs md:text-lg hover:underline transition-all duration-200"
-                  // className="w-20 text-center bg-red-600 text-white text-xs px-3 py-1 rounded hover:bg-red-700"
+                  className="text-red-500 text-xs md:text-sm hover:underline transition-all duration-200"
+                // className="w-20 text-center bg-red-600 text-white text-xs px-3 py-1 rounded hover:bg-red-700"
                 >
                   ลบร้าน
                 </button>
 
-                <Link
-                  href={`/dashboard/manage-menu/${shop._id}`}
-                  className="text-blue-500 text-xs md:text-lg hover:underline transition-all duration-200"
-                  // className="w-20 text-center bg-gray-600 text-white text-xs px-3 py-1 rounded hover:bg-gray-700"
-                >
-                  จัดการเมนู
-                </Link>
+
               </div>
-              
+
             </div>
           </div>
         ))}

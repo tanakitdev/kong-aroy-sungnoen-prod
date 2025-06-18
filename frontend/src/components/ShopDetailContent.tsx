@@ -111,14 +111,26 @@ export default function ShopDetailContent({ shop, menus }: Props) {
                         </a>
                     )}
 
-                    <a
-                        href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://ของอร่อยสูงเนิน.com/shop/${shop._id}`)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                    <button
+                        onClick={() => {
+                            if (navigator.share) {
+                                navigator.share({
+                                    title: shop.name,
+                                    url: `https://ของอร่อยสูงเนิน.com/shop/${shop._id}`,
+                                })
+                            } else {
+                                window.open(
+                                    `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                                        `https://ของอร่อยสูงเนิน.com/shop/${shop._id}`
+                                    )}`,
+                                    '_blank'
+                                )
+                            }
+                        }}
                         className="mt-2 mb-2 ml-2 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
                     >
                         📤 แชร์ร้าน
-                    </a>
+                    </button>
 
                     {/* <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://ของอร่อยสูงเนิน.com/shop/${shop._id}`)}`} target="_blank" rel="noreferrer">Facebook</a> */}
 

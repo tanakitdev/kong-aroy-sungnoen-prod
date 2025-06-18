@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react"
 import axios from "@/lib/axios"
 
+import {
+    FacebookShareButton,
+    FacebookIcon,
+    LineShareButton,
+    LineIcon
+} from 'next-share'
+
 type Checkin = {
     _id: string
     imageUrl: string
@@ -62,15 +69,37 @@ export default function ShopDetailContent({ shop, menus }: Props) {
                 className="w-full h-64 object-cover"
             />
 
+
+
             <div className="px-4">
                 <div className="border-b pb-4 mt-4">
-                    <div className="flex items-center gap-2">
-                        <h1 className="text-2xl font-bold">{shop.name}</h1>
-                        {shop.isOpen ? (
-                            <span className="text-green-600 font-medium">เปิดอยู่</span>
-                        ) : (
-                            <span className="text-red-600 font-medium">ปิดแล้ว</span>
-                        )}
+                    <div className="flex items-center justify-between gap-2">
+                        <div>
+                            <h1 className="text-2xl font-bold">{shop.name}</h1>
+
+                            {shop.isOpen ? (
+                                <span className="text-green-600 font-medium">เปิดอยู่</span>
+                            ) : (
+                                <span className="text-red-600 font-medium">ปิดแล้ว</span>
+                            )}
+                        </div>
+
+                        <div>
+                            <FacebookShareButton
+                                url={`https://ของอร่อยสูงเนิน.com/shop/${shop._id}`}
+                                quote={`https://ของอร่อยสูงเนิน.com/shop/${shop._id}`}
+                                hashtag={'#ของอร่อยสูงเนิน #ร้านอร่อยสูงเนิน'}
+                            >
+                                <FacebookIcon size={32} round />
+                            </FacebookShareButton>
+
+                            <LineShareButton
+                                url={`https://ของอร่อยสูงเนิน.com/shop/${shop._id}`}
+                                title={'ของอร่อยสูงเนิน รวมร้านเด็ดในชุมชนที่คุณไม่ควรพลาด'}
+                            >
+                                <LineIcon size={32} round />
+                            </LineShareButton>
+                        </div>
                     </div>
 
                     {shop.phone && (
@@ -81,6 +110,20 @@ export default function ShopDetailContent({ shop, menus }: Props) {
                             📞 โทรหาร้าน
                         </a>
                     )}
+
+                    {/* <a
+                        href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://ของอร่อยสูงเนิน.com/shop/${shop._id}`)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-2 mb-2 ml-2 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+                    >
+                        📤 แชร์ร้าน
+                    </a> */}
+
+                    {/* <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://ของอร่อยสูงเนิน.com/shop/${shop._id}`)}`} target="_blank" rel="noreferrer">Facebook</a> */}
+
+
+
 
                     <p className="text-sm text-gray-500">{shop.category}</p>
                     <p className="text-sm text-gray-600 mt-1">

@@ -52,7 +52,7 @@ export default async function ShopsWrapper() {
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <ShopPage shopLists={shops.data} />
+      <ShopPage shopLists={shops} />
     </Suspense>
   )
 }

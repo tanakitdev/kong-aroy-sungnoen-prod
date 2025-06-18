@@ -53,13 +53,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 
-        <Script
+        
+       
+      </Head>
+      <Script
   async
   src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7442679079181049"
   crossOrigin="anonymous"
 />
-       
-      </Head>
       <body className={`${prompt.className}`}>
         <AuthProvider>
           <Navbar />

@@ -69,7 +69,7 @@ export default function Home() {
   }
 
 
-  const loadCheckins = async (pageNumber = 1) => {
+  const loadCheckins = async () => {
     try {
       // const res = await axios.get(`/checkins/latest?page=${pageNumber}&limit=${limit}`)
       const res = await axios.get(`/checkins/latest?limit=${limit}`)
@@ -91,7 +91,8 @@ export default function Home() {
   }
 
   useEffect(() => {
-    loadCheckins(1)
+    // loadCheckins(1)
+    loadCheckins()
     loadArticles()
   }, [])
 

@@ -18,7 +18,8 @@ const ImageUploader = forwardRef<ImageUploaderHandle, Props>(({ label, onPreview
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const f = e.target.files?.[0]
     if (f) {
-      const compressedFile = await compressImage(f, 200 * 1024) // 200KB
+      // const compressedFile = await compressImage(f, 200 * 1024) // 200KB
+      const compressedFile = await compressImage(f, 500 * 1024) // เปลี่ยนจาก 200 KB เป็น 500 KB
       setFile(compressedFile)
       const url = URL.createObjectURL(compressedFile)
       setPreviewUrl(url)
@@ -88,46 +89,6 @@ const ImageUploader = forwardRef<ImageUploaderHandle, Props>(({ label, onPreview
       reader.readAsDataURL(file)
     })
   }
-
-
-  // const compressImage = (file: File, maxSizeInBytes: number): Promise<File> => {
-  //   return new Promise((resolve) => {
-  //     const img = new Image()
-  //     const reader = new FileReader()
-
-  //     reader.onload = (e) => {
-  //       img.src = e.target?.result as string
-  //     }
-
-  //     img.onload = () => {
-  //       const canvas = document.createElement("canvas")
-  //       const ctx = canvas.getContext("2d")!
-  //       const MAX_WIDTH = 800
-  //       const scale = MAX_WIDTH / img.width
-  //       canvas.width = MAX_WIDTH
-  //       canvas.height = img.height * scale
-  //       ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
-
-  //       let quality = 0.9
-
-  //       const compressLoop = () => {
-  //         canvas.toBlob((blob) => {
-  //           if (!blob) return
-  //           if (blob.size <= maxSizeInBytes || quality < 0.1) {
-  //             resolve(new File([blob], file.name, { type: file.type }))
-  //           } else {
-  //             quality -= 0.1
-  //             compressLoop()
-  //           }
-  //         }, file.type, quality)
-  //       }
-
-  //       compressLoop()
-  //     }
-
-  //     reader.readAsDataURL(file)
-  //   })
-  // }
 
 
   useImperativeHandle(ref, () => ({

@@ -7,6 +7,8 @@ import {
     LineShareButton,
     LineIcon
 } from 'next-share'
+import { MapPinPlus } from "lucide-react"
+import Link from "next/link"
 
 type Checkin = {
     _id: string
@@ -85,6 +87,7 @@ export default function ShopDetailContent({ shop, menus }: Props) {
                         </div>
 
                         <div>
+
                             <FacebookShareButton
                                 blankTarget={true}
                                 url={`https://ของอร่อยสูงเนิน.com/shop/${shop._id}`}
@@ -100,6 +103,8 @@ export default function ShopDetailContent({ shop, menus }: Props) {
                                 <LineIcon size={32} round />
                             </LineShareButton>
                         </div>
+
+
                     </div>
 
                     {shop.phone && (
@@ -131,11 +136,6 @@ export default function ShopDetailContent({ shop, menus }: Props) {
                     >
                         📤 แชร์ร้าน
                     </button>
-
-                    {/* <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://ของอร่อยสูงเนิน.com/shop/${shop._id}`)}`} target="_blank" rel="noreferrer">Facebook</a> */}
-
-
-
 
                     <p className="text-sm text-gray-500">{shop.category}</p>
                     <p className="text-sm text-gray-600 mt-1">

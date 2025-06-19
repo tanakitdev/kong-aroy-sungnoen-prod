@@ -1,9 +1,23 @@
 "use client"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Search, Edit } from "lucide-react"
+import { Search, ChevronLeft, ChevronRight } from "lucide-react"
 import axios from "@/lib/axios"
+
+const topShops = [
+  {
+    _id: "s001",
+    name: "บะหมี่เกี๊ยวกุ้งคุณแดง",
+    imageUrl: "/noimgspon.png",
+  },
+  {
+    _id: "s002",
+    name: "ยำแซ่บลืมผัว",
+    imageUrl: "/noimgspon.png",
+  },
+  // ...เพิ่มจนถึง 10 ร้าน
+]
 
 const promoters = [
   {
@@ -13,20 +27,6 @@ const promoters = [
     description: "Ninja Go คือบริการเดลิเวอรี่อาหารในชุมชนของคุณ รับออเดอร์จากร้านดังในพื้นที่ กดติดตามเพจนี้ไว้ 📲 แล้วคุณจะไม่พลาดร้านเด็ด และโปรโมชันจาก Ninja Go!",
     linkProfile: "https://www.facebook.com/profile.php?id=61577253848573",
   },
-  // {
-  //   _id: "p001",
-  //   p_name: "ติดต่อลงโฆษณา",
-  //   imageUrl: "/noimgspon.png",
-  //   description: "ติดต่อลงโฆษณา และสนับสนุนเรา",
-  //   linkProfile: "/",
-  // },
-  // {
-  //   _id: "p002",
-  //   p_name: "ติดต่อโฆษณา",
-  //   imageUrl: "/noimgspon.png",
-  //   description: "ติดต่อลงโฆษณา และสนับสนุนเรา",
-  //   linkProfile: "/",
-  // },
 ]
 
 type Checkin = {
@@ -40,31 +40,61 @@ type Checkin = {
   createdAt: string;
 };
 
+type Article = {
+  _id: string
+  title: string
+  slug: string
+  coverImageUrl: string
+  publishedAt: string
+}
+
+
 export default function Home() {
   const [checkins, setCheckins] = useState<Checkin[]>([])
-  const [page, setPage] = useState(1)
-  const [totalPages, setTotalPages] = useState(1)
-  const limit = 4
+  // const [page, setPage] = useState(1)
+  // const [totalPages, setTotalPages] = useState(1)
+  const limit = 30
+
+  const [articles, setArticles] = useState<Article[]>([])
+
+
+  const scrollRef = useRef<HTMLDivElement>(null)
+
+  const scrollLeft = () => {
+    scrollRef.current?.scrollBy({ left: -300, behavior: 'smooth' })
+  }
+
+  const scrollRight = () => {
+    scrollRef.current?.scrollBy({ left: 300, behavior: 'smooth' })
+  }
+
 
   const loadCheckins = async (pageNumber = 1) => {
     try {
-      const res = await axios.get(`/checkins/latest?page=${pageNumber}&limit=${limit}`)
+      // const res = await axios.get(`/checkins/latest?page=${pageNumber}&limit=${limit}`)
+      const res = await axios.get(`/checkins/latest?limit=${limit}`)
       setCheckins(res.data.data)
-      setTotalPages(res.data.totalPages)
-      setPage(pageNumber)
+      // setTotalPages(res.data.totalPages)
+      // setPage(pageNumber)
     } catch (err) {
       console.error("โหลด checkins ล้มเหลว", err)
     }
   }
 
+  const loadArticles = async () => {
+    try {
+      const res = await axios.get("/articles?limit=3")
+      setArticles(res.data)
+    } catch (err) {
+      console.error("โหลดบทความล้มเหลว", err)
+    }
+  }
+
   useEffect(() => {
     loadCheckins(1)
+    loadArticles()
   }, [])
 
-  // const maskPhone = (phone: string) => {
-  //   if (!phone || phone.length < 9) return "ไม่ระบุเบอร์"
-  //   return `${phone.slice(0, 2)}****${phone.slice(-4)}`
-  // }
   const maskPhone = (phone: string) => {
     if (!phone || phone.length < 9) return "ไม่ระบุเบอร์"
     return `******${phone.slice(-4)}`
@@ -73,29 +103,22 @@ export default function Home() {
   return (
     <main className="bg-gray-50 text-gray-800">
       {/* Hero Section */}
-      <div className="relative w-full overflow-hidden md:h-[50vh]">
-        {/* รูปภาพแสดงเฉพาะจอใหญ่ */}
+      <div className="relative w-full h-60 md:h-72 overflow-hidden">
         <Image
           src="/train_logo.jpg"
           alt="ของอร่อยสูงเนิน"
           layout="fill"
           objectFit="cover"
           priority
-          className="hidden md:block"
+          // className="hidden md:block"
         />
-
-        {/* ฉากมืดทับภาพบนจอใหญ่ */}
-        <div className="absolute inset-0 bg-black/50 hidden md:block" />
-
-        {/* กล่องข้อความแสดงผลทุกจอ */}
-        <div className="relative z-10 px-4 py-10 md:absolute md:inset-0 md:flex md:items-center md:justify-center md:text-white text-gray-600 text-center bg-orange-50 md:bg-transparent">
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="relative z-10 px-4 py-10 md:absolute md:inset-0 md:flex md:items-center md:justify-center text-white text-center md:bg-transparent">
           <div>
             <h1 className="text-4xl md:text-5xl font-bold mb-2">
               ของอร่อยสูงเนิน
             </h1>
-            <p className="text-sm md:text-xl">
-              รวมร้านเด็ดในชุมชนที่คุณไม่ควรพลาด
-            </p>
+            <p className="text-sm md:text-xl">รวมร้านเด็ดในชุมชนที่คุณไม่ควรพลาด</p>
             <div className="flex justify-center md:mt-10 mt-4">
               <Link
                 href="/shops"
@@ -109,70 +132,137 @@ export default function Home() {
       </div>
 
       {/* Check-ins + Promoters Section */}
-      <section className="max-w-6xl mx-auto px-4 md:py-10 py-4">
+      <section className="max-w-6xl mx-auto px-4 md:py-12 py-10">
         <div className="flex flex-col md:flex-row gap-6">
           {/* Left: Check-ins */}
           <div className="md:w-2/3">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-semibold text-gray-600">เช็คอินล่าสุด</h2>
-              <Link
-                href="/checkin"
-                className="bg-gray-500 text-white px-2 py-1 rounded shadow hover:bg-gray-600"
-              >
-                <div className="flex">
-                  <Edit /><span className="pl-1">เพิ่มโพสต์</span>
-                </div>
-              </Link>
+
+            {/* เช็คอินล่าสุด */}
+            <div className="flex items-center justify-between">
+              <h2 className="text-2xl font-semibold text-gray-700 mb-6">เช็คอินล่าสุด</h2>
             </div>
-            <div className="space-y-2">
-              {checkins.map(item => (
-                <Link
-                  key={item._id}
-                  href={`/shop/${item.shopId}`}
-                  className="block bg-white rounded-sm shadow-sm overflow-hidden hover:shadow transition-shadow"
-                >
-                  <div className="flex h-28">
-                    <div className="w-28 h-full flex-shrink-0">
+
+            <div className="relative">
+              {/* ปุ่มเลื่อนซ้าย */}
+              <button
+                onClick={scrollLeft}
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-gray-700 text-white shadow rounded-full p-1"
+              >
+                <ChevronLeft size={28} />
+              </button>
+
+              {/* รายการเช็คอินแนวนอน */}
+              <div
+                ref={scrollRef}
+                className="overflow-x-auto flex gap-4 pb-2 scroll-smooth px-6 hide-scrollbar py-2"
+              >
+                {checkins.map(item => (
+                  <Link
+                    key={item._id}
+                    href={`/shop/${item.shopId}`}
+                    className="flex-shrink-0 w-44 rounded-md overflow-hidden shadow bg-white hover:shadow-md transition"
+                  >
+                    <div className="w-44 h-44 relative">
                       <Image
                         src={item.imageUrl}
                         alt={item.shopName}
-                        width={112}
-                        height={112}
-                        className="w-full h-full object-cover p-2"
+                        fill
+                        className="object-cover"
                       />
                     </div>
-                    <div className="flex-1 p-3 flex flex-col justify-between">
-                      <div>
-                        <h3 className="text-base font-bold mb-1">{item.shopName}</h3>
-                        <p className="text-sm text-gray-600 line-clamp-2">{item.caption || "ไม่มีข้อความ"}</p>
-                      </div>
-                      <p className="text-xs text-gray-400 mt-1">
-                        โดย {item.userName} {maskPhone(item.userPhone) || "ไม่ระบุเบอร์"} - {new Date(item.createdAt).toLocaleDateString("th-TH")}
-                      </p>
+
+                    {/* Dark Mode */}
+                    {/* <div className="p-2 bg-gray-900">
+                      <h3 className="text-sm font-semibold text-gray-200 truncate">{item.shopName}</h3>
+                      <p className="text-xs text-gray-300 truncate">{item.caption || 'ไม่มีข้อความ'}</p>
+                      <p className="text-xs text-gray-300 truncate">{item.userName} {maskPhone(item.userPhone) || "ไม่มีข้อความ"}</p>
+                    </div> */}
+
+                    <div className="p-2">
+                      <h3 className="text-sm font-semibold text-gray-900 truncate">{item.shopName}</h3>
+                      <p className="text-xs text-gray-800 truncate">{item.caption || 'ไม่มีข้อความ'}</p>
+                      <p className="text-xs text-gray-800 truncate">{item.userName} {maskPhone(item.userPhone) || "ไม่มีข้อความ"}</p>
                     </div>
-                  </div>
-                </Link>
-              ))}
+                  </Link>
+                ))}
+              </div>
+
+              {/* ปุ่มเลื่อนขวา */}
+              <button
+                onClick={scrollRight}
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-gray-700 text-white shadow rounded-full p-1"
+              >
+                <ChevronRight size={28} />
+              </button>
             </div>
 
-            {/* Pagination */}
-            <div className="mt-6 flex justify-center gap-2 flex-wrap">
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
-                <button
-                  key={p}
-                  onClick={() => loadCheckins(p)}
-                  className={`px-3 py-1 border rounded ${p === page ? 'bg-blue-500 text-white' : 'bg-white text-gray-700'}`}
-                >
-                  {p}
-                </button>
-              ))}
+            {/* ✅ บทความล่าสุด */}
+            <div >
+              <h2 className="text-2xl font-semibold text-gray-700 mt-10 mb-6">📚 บทความล่าสุด</h2>
+              <div className="grid md:grid-cols-3 gap-6">
+                {articles.map(article => (
+                  <Link
+                    key={article._id}
+                    href={`/dashboard/articles/${article.slug}`}
+                    className="bg-white border rounded shadow-sm hover:shadow-md transition overflow-hidden"
+                  >
+                    <Image
+                      src={article.coverImageUrl}
+                      alt={article.title}
+                      width={600}
+                      height={300}
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="p-3">
+                      <h3 className="font-semibold text-gray-800 line-clamp-2">{article.title}</h3>
+                      <p className="text-sm text-gray-500 mt-1">
+                        เผยแพร่ {new Date(article.publishedAt).toLocaleDateString('th-TH')}
+                      </p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+              <div className="text-right mt-4">
+                <Link href="/dashboard/articles" className="text-blue-600 text-sm hover:underline">
+                  ดูบทความทั้งหมด →
+                </Link>
+              </div>
             </div>
           </div>
 
           {/* Right: Promoters */}
           <div className="md:w-1/3">
-            <h2 className="text-xl font-semibold mb-4 text-gray-600">ได้รับการสนับสนุน</h2>
-            <div className="space-y-2">
+
+            {/* 🔥 ร้านยอดนิยม */}
+            <h2 className="text-xl font-semibold mb-4 text-gray-700 mt-10 md:mt-1">🔥 ร้านยอดนิยม 10 อันดับ</h2>
+            <div className="space-y-3 mb-8">
+              {topShops.map((shop, index) => (
+                <Link
+                  key={shop._id}
+                  href={`/shop/${shop._id}`}
+                  className="bg-white border border-gray-100 shadow-sm rounded-md overflow-hidden flex items-center p-2 gap-3 hover:shadow-md transition"
+                >
+                  <div className="relative">
+                    <Image
+                      src={shop.imageUrl}
+                      alt={shop.name}
+                      width={48}
+                      height={48}
+                      className="w-12 h-12 object-cover rounded"
+                    />
+                    <span className="absolute -top-2 -left-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+                      {index + 1}
+                    </span>
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-sm font-medium text-gray-800 truncate">{shop.name}</h3>
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+            <h2 className="text-xl font-semibold mb-4 text-gray-700">ได้รับการสนับสนุน</h2>
+            <div className="space-y-3">
               {promoters.map(promoter => (
                 <Link
                   href={promoter.linkProfile}
@@ -197,19 +287,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* Floating Action Button */}
-      {/* <Link
-        href="/checkin"
-        className="fixed bottom-6 right-6 bg-orange-500 hover:bg-orange-600 text-white p-4 rounded-full shadow-lg transition"
-        title="เช็คอินร้านใหม่"
-      >
-        <div className="flex flex-col items-center">
-          <Edit size={28} />
-          <span className="text-[10px]">เพิ่มโพสต์</span>
-        </div>
-
-      </Link> */}
     </main>
   )
 }

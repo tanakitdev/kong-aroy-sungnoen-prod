@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import axios from "@/lib/axios"
 import Image from "next/image"
 import Link from "next/link"
-import { Edit } from "lucide-react"
+import { MapPinPlus } from "lucide-react"
 
 type CheckIn = {
     _id: string
@@ -23,8 +23,6 @@ export default function ProfilePage() {
         const fetchCheckIns = async () => {
             try {
                 const res = await axios.get("/checkins")
-                console.log('checkins', res.data);
-
                 setCheckins(res.data)
             } catch (err) {
                 console.error("Error loading check-ins", err)
@@ -87,8 +85,8 @@ export default function ProfilePage() {
                 title="เช็คอินร้านใหม่"
             >
                 <div className="flex flex-col items-center">
-                    <Edit size={28} />
-                    <span className="text-[10px]">เพิ่มโพสต์</span>
+                    <MapPinPlus size={28} />
+                    <span className="text-[10px]">Check In</span>
                 </div>
 
             </Link>

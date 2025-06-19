@@ -106,6 +106,21 @@ router.get("/by-user", async (req, res) => {
   }
 });
 
+// GET /api/shops/top
+router.get("/top", async (req, res) => {
+  try {
+    const shops = await Shop.find({})
+      .sort({ popularityScore: -1 }) // หรือ .limit(10) ถ้ามี field นี้
+      .limit(10)
+      .exec();
+
+    res.json(shops);
+  } catch (err) {
+    console.error("Error fetching top shops:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 router.get("/:id", async (req, res) => {
   try {
     const shop = await Shop.findById(req.params.id).populate("menus");

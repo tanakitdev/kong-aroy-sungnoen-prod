@@ -57,7 +57,7 @@ export default function ShopDetailContent({ shop, menus }: Props) {
 
     const maskPhone = (phone: string) => {
         if (!phone || phone.length < 9) return "ไม่ระบุเบอร์"
-        return `${phone.slice(0, 2)}****${phone.slice(-4)}`
+        return `******${phone.slice(-4)}`
     }
 
 

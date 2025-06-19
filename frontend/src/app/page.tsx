@@ -5,20 +5,6 @@ import Link from "next/link"
 import { Search, ChevronLeft, ChevronRight } from "lucide-react"
 import axios from "@/lib/axios"
 
-const topShops = [
-  {
-    _id: "s001",
-    name: "บะหมี่เกี๊ยวกุ้งคุณแดง",
-    imageUrl: "/noimgspon.png",
-  },
-  {
-    _id: "s002",
-    name: "ยำแซ่บลืมผัว",
-    imageUrl: "/noimgspon.png",
-  },
-  // ...เพิ่มจนถึง 10 ร้าน
-]
-
 const promoters = [
   {
     _id: "n001",
@@ -48,6 +34,13 @@ type Article = {
   publishedAt: string
 }
 
+type Shop = {
+  _id: string
+  image: string
+  name: string
+  category: string
+  popularityScore: string
+}
 
 export default function Home() {
   const [checkins, setCheckins] = useState<Checkin[]>([])
@@ -57,6 +50,10 @@ export default function Home() {
 
   const [articles, setArticles] = useState<Article[]>([])
 
+  const [topShops, setTopShops] = useState<Shop[]>([])
+
+  const [showLeftButton, setShowLeftButton] = useState(false)
+  const [showRightButton, setShowRightButton] = useState(false)
 
   const scrollRef = useRef<HTMLDivElement>(null)
 
@@ -67,6 +64,33 @@ export default function Home() {
   const scrollRight = () => {
     scrollRef.current?.scrollBy({ left: 300, behavior: 'smooth' })
   }
+
+  const checkScrollButtons = () => {
+    const container = scrollRef.current
+    if (!container) return
+
+    const { scrollLeft, scrollWidth, clientWidth } = container
+
+    setShowLeftButton(scrollLeft > 0)
+    setShowRightButton(scrollLeft + clientWidth < scrollWidth - 5) // -5 เผื่อ margin
+  }
+
+  useEffect(() => {
+    checkScrollButtons()
+  }, [checkins])
+
+  useEffect(() => {
+    // loadCheckins(1)
+    loadCheckins()
+    loadArticles()
+    loadTopShops()
+
+    const el = scrollRef.current
+    if (!el) return
+
+    el.addEventListener("scroll", checkScrollButtons)
+    return () => el.removeEventListener("scroll", checkScrollButtons)
+  }, [])
 
 
   const loadCheckins = async () => {
@@ -90,11 +114,20 @@ export default function Home() {
     }
   }
 
-  useEffect(() => {
-    // loadCheckins(1)
-    loadCheckins()
-    loadArticles()
-  }, [])
+  const loadTopShops = async () => {
+    try {
+      const res = await axios.get("/shops/top")
+      setTopShops(res.data)
+    } catch (err) {
+      console.error("โหลดร้านยอดนิยมล้มเหลว", err)
+    }
+  }
+
+  // useEffect(() => {
+  //   // loadCheckins(1)
+  //   loadCheckins()
+  //   loadArticles()
+  // }, [])
 
   const maskPhone = (phone: string) => {
     if (!phone || phone.length < 9) return "ไม่ระบุเบอร์"
@@ -111,7 +144,7 @@ export default function Home() {
           layout="fill"
           objectFit="cover"
           priority
-          // className="hidden md:block"
+        // className="hidden md:block"
         />
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 px-4 py-10 md:absolute md:inset-0 md:flex md:items-center md:justify-center text-white text-center md:bg-transparent">
@@ -145,12 +178,14 @@ export default function Home() {
 
             <div className="relative">
               {/* ปุ่มเลื่อนซ้าย */}
-              <button
-                onClick={scrollLeft}
-                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-gray-700 text-white shadow rounded-full p-1"
-              >
-                <ChevronLeft size={28} />
-              </button>
+              {showLeftButton && (
+                <button
+                  onClick={scrollLeft}
+                  className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-gray-700 text-white shadow rounded-full p-1"
+                >
+                  <ChevronLeft size={28} />
+                </button>
+              )}
 
               {/* รายการเช็คอินแนวนอน */}
               <div
@@ -189,12 +224,14 @@ export default function Home() {
               </div>
 
               {/* ปุ่มเลื่อนขวา */}
-              <button
-                onClick={scrollRight}
-                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-gray-700 text-white shadow rounded-full p-1"
-              >
-                <ChevronRight size={28} />
-              </button>
+              {showRightButton && (
+                <button
+                  onClick={scrollRight}
+                  className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-gray-700 text-white shadow rounded-full p-1"
+                >
+                  <ChevronRight size={28} />
+                </button>
+              )}
             </div>
 
             {/* ✅ บทความล่าสุด */}
@@ -234,36 +271,8 @@ export default function Home() {
           {/* Right: Promoters */}
           <div className="md:w-1/3">
 
-            {/* 🔥 ร้านยอดนิยม */}
-            <h2 className="text-xl font-semibold mb-4 text-gray-700 mt-10 md:mt-1">🔥 ร้านยอดนิยม 10 อันดับ</h2>
-            <div className="space-y-3 mb-8">
-              {topShops.map((shop, index) => (
-                <Link
-                  key={shop._id}
-                  href={`/shop/${shop._id}`}
-                  className="bg-white border border-gray-100 shadow-sm rounded-md overflow-hidden flex items-center p-2 gap-3 hover:shadow-md transition"
-                >
-                  <div className="relative">
-                    <Image
-                      src={shop.imageUrl}
-                      alt={shop.name}
-                      width={48}
-                      height={48}
-                      className="w-12 h-12 object-cover rounded"
-                    />
-                    <span className="absolute -top-2 -left-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
-                      {index + 1}
-                    </span>
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-sm font-medium text-gray-800 truncate">{shop.name}</h3>
-                  </div>
-                </Link>
-              ))}
-            </div>
-
             <h2 className="text-xl font-semibold mb-4 text-gray-700">ได้รับการสนับสนุน</h2>
-            <div className="space-y-3">
+            <div className="space-y-3 mb-8">
               {promoters.map(promoter => (
                 <Link
                   href={promoter.linkProfile}
@@ -276,11 +285,45 @@ export default function Home() {
                     alt={promoter.p_name}
                     width={48}
                     height={48}
-                    className="w-16 h-16 object-cover rounded"
+                    className="w-14 h-14 object-cover rounded"
                   />
                   <div className="flex-1">
                     <h3 className="text-sm font-medium text-gray-800">{promoter.p_name}</h3>
                     <p className="text-xs text-gray-500 line-clamp-2">{promoter.description}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+            {/* 🔥 ร้านยอดนิยม */}
+            <h2 className="text-xl font-semibold mb-4 text-gray-700 mt-10 md:mt-1">ร้านยอดนิยม 10 อันดับ</h2>
+            <div className="space-y-1 mb-8">
+
+              {topShops.map((shop, index) => (
+                <Link
+                  key={shop._id}
+                  href={`/shop/${shop._id}`}
+                  className="bg-white border border-gray-100 shadow-sm rounded-md overflow-hidden flex items-center p-2 gap-3 hover:shadow-md transition"
+                >
+                  <div className="relative">
+                    <Image
+                      src={shop.image}
+                      alt={shop.name}
+                      width={48}
+                      height={48}
+                      className="w-14 h-14 object-cover rounded"
+                    />
+                    {index + 1 <= 3 && (
+                      <span className="absolute -top-2 -left-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+                        {index + 1}
+                      </span>
+                    )}
+
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-sm font-medium text-gray-800 line-clamp-1">{shop.name}</h3>
+                    <p className="text-xs text-gray-700 line-clamp-1">{shop.category}</p>
+                    <p className="text-xs text-gray-500 text-end">{shop.popularityScore} Point</p>
                   </div>
                 </Link>
               ))}

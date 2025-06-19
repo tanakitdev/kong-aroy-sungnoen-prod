@@ -33,6 +33,10 @@ const shopSchema = new mongoose.Schema({
     type: String,
     required: false, // ถ้าอยากให้บังคับใส่ เปลี่ยนเป็น true
   },
+  popularityScore: {
+    type: Number,
+    default: 0,
+  },
   menus: [
     {
       type: mongoose.Schema.Types.ObjectId,

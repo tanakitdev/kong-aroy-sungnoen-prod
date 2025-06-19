@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import axios from "@/lib/axios";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
+import MenuActionDropdown from "@/components/MenuActionDropdown"
 
 interface Menu {
   _id: string;
@@ -13,8 +14,12 @@ interface Menu {
   image: string;
 }
 
+type Shop = {
+  shopId: string
+}
+
 export default function ManageMenuPage() {
-  const { shopId } = useParams();
+  const { shopId } = useParams<Shop>();
   const [menus, setMenus] = useState<Menu[]>([]);
 
   const router = useRouter();
@@ -32,15 +37,15 @@ export default function ManageMenuPage() {
     fetchMenus();
   }, [shopId]);
 
-  const handleDelete = async (menuId: string) => {
-    if (!confirm("คุณแน่ใจว่าต้องการลบเมนูนี้?")) return;
-    try {
-      await axios.delete(`/menus/${menuId}`);
-      setMenus((prev) => prev.filter((m) => m._id !== menuId));
-    } catch (err) {
-      console.error("Error deleting menu:", err);
-    }
-  };
+  // const handleDelete = async (menuId: string) => {
+  //   if (!confirm("คุณแน่ใจว่าต้องการลบเมนูนี้?")) return;
+  //   try {
+  //     await axios.delete(`/menus/${menuId}`);
+  //     setMenus((prev) => prev.filter((m) => m._id !== menuId));
+  //   } catch (err) {
+  //     console.error("Error deleting menu:", err);
+  //   }
+  // };
 
   return (
     <div className="p-4 max-w-4xl mx-auto">
@@ -65,51 +70,42 @@ export default function ManageMenuPage() {
         </Link>
       </div>
 
-      {menus.length === 0 ? (
-        <p className="text-gray-500 text-center">ยังไม่มีเมนูในร้านนี้</p>
-      ) : (
-        <ul className="space-y-2">
-          {menus.map((menu) => (
-            <li
-              key={menu._id}
-              className="flex items-center gap-4 border rounded-sm p-1"
-            >
-              {menu.image ? (
-                <img
-                  src={menu.image}
-                  alt={menu.name}
-                  className="w-24 h-24 object-cover rounded-sm border"
+      <table className="w-full text-sm bg-white rounded-md shadow">
+        <thead className="bg-gray-100 text-left text-gray-600 uppercase">
+          <tr>
+            <th className="p-3">#</th>
+            <th className="p-3">รูป</th>
+            <th className="p-3">ชื่อเมนู</th>
+            <th className="p-3">ราคา</th>
+            <th className="p-3 text-center">การจัดการ</th>
+          </tr>
+        </thead>
+        <tbody>
+          {menus.map((menu, index) => (
+            <tr key={menu._id} className="border-b hover:bg-gray-50">
+              <td className="p-3 align-top">{index + 1}</td>
+              <td className="p-3">
+                <div className="w-12 h-12 overflow-hidden border rounded">
+                  <img
+                    src={menu.image || "/nopic.png"}
+                    alt={menu.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </td>
+              <td className="p-3 font-medium text-gray-800">{menu.name}</td>
+              <td className="p-3 text-gray-700">{menu.price} บาท</td>
+              <td className="p-3 text-center">
+                <MenuActionDropdown
+                  menuId={menu._id}
+                  shopId={shopId}
+                  onDeleted={() => setMenus(menus.filter(m => m._id !== menu._id))}
                 />
-              ) : (
-                <img
-                  src="/nopic.png"
-                  alt="ไม่มีรูปเมนู"
-                  className="w-24 h-24 object-cover rounded-sm border"
-                />
-              )}
-              <div className="flex-1">
-                <h2 className="text-base font-semibold">{menu.name}</h2>
-                <p className="text-sm text-gray-600">{menu.price} บาท</p>
-              </div>
-              <div className="block space-x-4">
-                {/* <div className="flex flex-col gap-2 items-end"> */}
-                <Link
-                  href={`/dashboard/edit-menu/${menu._id}?from=manage-menu&shopId=${shopId}`}
-                  className="text-sm text-blue-600 hover:text-blue-500 hover:underline"
-                >
-                  แก้ไข
-                </Link>
-                <button
-                  onClick={() => handleDelete(menu._id)}
-                  className="text-sm text-red-600 hover:text-red-500 hover:underline"
-                >
-                  ลบออก
-                </button>
-              </div>
-            </li>
+              </td>
+            </tr>
           ))}
-        </ul>
-      )}
+        </tbody>
+      </table>
     </div>
   );
 }

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import axios from "@/lib/axios"
 import Link from "next/link"
+import ActionDropdown from "@/components/ActionDropdown"
 
 interface Menu {
   _id: string
@@ -38,26 +39,26 @@ export default function DashboardPage() {
     }
   }, [userId])
 
-  const handleDeleteShop = async (shopId: string) => {
-    const confirmText = prompt('กรุณาพิมพ์คำว่า "delete" เพื่อยืนยันการลบร้านค้า')
-    if (confirmText !== "delete") {
-      alert("ยกเลิกการลบร้านค้า")
-      return;
-    }
+  // const handleDeleteShop = async (shopId: string) => {
+  //   const confirmText = prompt('กรุณาพิมพ์คำว่า "delete" เพื่อยืนยันการลบร้านค้า')
+  //   if (confirmText !== "delete") {
+  //     alert("ยกเลิกการลบร้านค้า")
+  //     return;
+  //   }
 
-    try {
-      await axios.delete(`/shops/${shopId}`)
-      alert("ลบร้านค้าเรียบร้อยแล้ว")
-      // อัปเดตรายการร้านค้า
-      if (userId) {
-        const res = await axios.get(`/shops/by-user?userId=${userId}`)
-        setShops(res.data)
-      }
-    } catch (err) {
-      console.error("ลบร้านค้าไม่สำเร็จ", err)
-      alert("เกิดข้อผิดพลาดในการลบร้านค้า")
-    }
-  }
+  //   try {
+  //     await axios.delete(`/shops/${shopId}`)
+  //     alert("ลบร้านค้าเรียบร้อยแล้ว")
+  //     // อัปเดตรายการร้านค้า
+  //     if (userId) {
+  //       const res = await axios.get(`/shops/by-user?userId=${userId}`)
+  //       setShops(res.data)
+  //     }
+  //   } catch (err) {
+  //     console.error("ลบร้านค้าไม่สำเร็จ", err)
+  //     alert("เกิดข้อผิดพลาดในการลบร้านค้า")
+  //   }
+  // }
 
   return (
     <div className="bg-gray-50">
@@ -73,62 +74,51 @@ export default function DashboardPage() {
           </Link>
         </div>
 
-        {shops.map((shop) => (
-          // <div key={shop._id} className="border rounded p-4 mb-4 drop-shadow bg-white hover:shadow-md transition">
-          <div key={shop._id} className="p-1 bg-white rounded-sm shadow overflow-hidden hover:shadow transition-shadow">
-            <div className="flex gap-3 items-center md:items-start">
-              {/* รูปร้าน */}
-              <div className="w-24 h-24 md:w-48 md:h-48 flex-shrink-0 rounded-sm overflow-hidden border bg-gray-100">
-                {shop.image ? (
-                  <img
-                    src={shop.image}
-                    alt={shop.name}
-                    className="w-full h-full object-fit"
-                  />
-                ) : (
-                  <div className="flex items-center justify-center w-full h-full text-gray-400 text-sm">ไม่มีรูป</div>
-                )}
-              </div>
 
-              {/* ข้อมูลร้าน */}
-              <div className="flex-1 space-y-1 md:pt-3">
-                <h2 className="text-sm md:text-lg">{shop.name}</h2>
-                <div className="text-orange-600 text-xs md:text-sm">{shop.category}</div>
-                <div className="text-xs md:text-sm text-gray-700">📞 {shop.phone || "ไม่มีข้อมูล"}</div>
-              </div>
+        <table className="w-full text-sm bg-white rounded-md shadow">
+          <thead className="bg-gray-100 text-left text-gray-600 uppercase">
+            <tr>
+              <th className="p-3">#</th>
+              <th className="p-3">ชื่อร้าน</th>
+              <th className="p-3 hidden md:table-cell">หมวดหมู่</th>
+              <th className="p-3 hidden md:table-cell">เบอร์โทร</th>
+              <th className="p-3 text-right">การจัดการ</th>
+            </tr>
+          </thead>
+          <tbody>
+            {shops.map((shop, index) => (
+              <tr key={shop._id} className="border-b hover:bg-gray-50 group">
+                <td className="p-3 align-top">{index + 1}</td>
+                <td className="p-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 flex-shrink-0 bg-gray-100 border rounded overflow-hidden">
+                      {shop.image ? (
+                        <img
+                          src={shop.image}
+                          alt={shop.name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="text-center text-gray-400 text-xs pt-3">ไม่มีรูป</div>
+                      )}
+                    </div>
+                    <div>
+                      <p className="font-medium text-gray-800">{shop.name}</p>
+                      <p className="text-xs text-gray-500 md:hidden">{shop.category}</p>
+                      <p className="text-xs text-gray-500 md:hidden">{shop.phone || "ไม่มีเบอร์"}</p>
+                    </div>
+                  </div>
+                </td>
+                <td className="p-3 hidden md:table-cell">{shop.category}</td>
+                <td className="p-3 hidden md:table-cell">{shop.phone || "ไม่มีข้อมูล"}</td>
+                <td className="p-3 text-center relative">
+                  <ActionDropdown shopId={shop._id} />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
 
-              {/* ปุ่ม */}
-              <div className="flex flex-col items-center justify-center min-h-[80px] md:min-h-[150px] md:space-y-2 pr-2 gap-2 ">
-                <Link
-                  href={`/dashboard/manage-menu/${shop._id}`}
-                  className="text-blue-500 text-xs md:text-sm hover:underline transition-all duration-200"
-                // className="w-20 text-center bg-gray-600 text-white text-xs px-3 py-1 rounded hover:bg-gray-700"
-                >
-                  จัดการเมนู
-                </Link>
-
-                <Link
-                  href={`/dashboard/edit-shop/${shop._id}`}
-                  className="text-blue-500 text-xs md:text-sm hover:underline transition-all duration-200"
-                // className="w-20 text-center bg-blue-600 text-white text-xs px-3 py-1 rounded hover:bg-blue-700"
-                >
-                  แก้ไข
-                </Link>
-
-                <button
-                  onClick={() => handleDeleteShop(shop._id)}
-                  className="text-red-500 text-xs md:text-sm hover:underline transition-all duration-200"
-                // className="w-20 text-center bg-red-600 text-white text-xs px-3 py-1 rounded hover:bg-red-700"
-                >
-                  ลบร้าน
-                </button>
-
-
-              </div>
-
-            </div>
-          </div>
-        ))}
       </div>
     </div>
   )

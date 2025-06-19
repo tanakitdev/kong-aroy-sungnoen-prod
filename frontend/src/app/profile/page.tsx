@@ -23,6 +23,8 @@ export default function ProfilePage() {
         const fetchCheckIns = async () => {
             try {
                 const res = await axios.get("/checkins")
+                console.log('checkins', res.data);
+
                 setCheckins(res.data)
             } catch (err) {
                 console.error("Error loading check-ins", err)
@@ -61,9 +63,14 @@ export default function ProfilePage() {
                                         {checkin.shopName}
                                     </Link>
                                 </h2>
-                                <p className="text-sm text-gray-500">
-                                    เช็คอินเมื่อ {new Date(checkin.createdAt).toLocaleDateString("th-TH")}
-                                </p>
+                                <Link
+                                    href={`/checkin/${checkin._id}`}
+                                >
+                                    <p className="text-sm text-gray-500 hover:underline">
+                                        เช็คอินเมื่อ {new Date(checkin.createdAt).toLocaleDateString("th-TH")}
+                                    </p>
+                                </Link>
+
                                 {checkin.caption && (
                                     <p className="mt-2 text-gray-700">{checkin.caption}</p>
                                 )}

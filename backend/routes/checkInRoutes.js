@@ -211,6 +211,31 @@ router.get("/my", auth, async (req, res) => {
   }
 });
 
+// ✅ GET /api/checkins/:id - ดึงข้อมูล checkin รายตัว
+router.get("/:id", async (req, res) => {
+  try {
+    const checkin = await Checkin.findById(req.params.id)
+      .populate("shopId", "name location")
+      .populate("userId", "name phone");
+
+    if (!checkin) {
+      return res.status(404).json({ message: "ไม่พบเช็คอินนี้" });
+    }
+
+    res.json({
+      _id: checkin._id,
+      shopName: checkin.shopId?.name || "",
+      imageUrl: checkin.imageUrl,
+      caption: checkin.caption,
+      userName: checkin.userId?.name || "ผู้ใช้",
+      createdAt: checkin.createdAt
+    });
+  } catch (err) {
+    console.error("GET /api/checkins/:id error", err);
+    res.status(500).json({ message: "เกิดข้อผิดพลาด" });
+  }
+});
+
 // ✅ DELETE /api/checkins/:id — ลบ check-in
 router.delete("/:id", auth, async (req, res) => {
   try {

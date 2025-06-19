@@ -7,8 +7,6 @@ import {
     LineShareButton,
     LineIcon
 } from 'next-share'
-import { MapPinPlus } from "lucide-react"
-import Link from "next/link"
 
 type Checkin = {
     _id: string

@@ -2,17 +2,20 @@
 
 import { createContext, useContext, useEffect, useState } from "react"
 
+
 type AuthContextType = {
     isLoggedIn: boolean
     userId: string | null
     login: (token: string, userId: string) => void
     logout: () => void
+    isCheckingAuth: boolean
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const [isCheckingAuth, setIsCheckingAuth] = useState(true)
     const [userId, setUserId] = useState<string | null>(null)
 
     useEffect(() => {
@@ -22,6 +25,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             setIsLoggedIn(true)
             setUserId(uid)
         }
+        setIsCheckingAuth(false) // ✅ ไม่ว่าจะเจอหรือไม่ ก็ต้อง mark ว่าเช็คเสร็จแล้ว
     }, [])
 
     const login = (token: string, userId: string) => {
@@ -39,7 +43,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, userId, login, logout }}>
+        <AuthContext.Provider value={{ isLoggedIn, userId, login, logout, isCheckingAuth  }}>
             {children}
         </AuthContext.Provider>
     )

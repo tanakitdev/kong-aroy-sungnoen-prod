@@ -3,6 +3,7 @@
 import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import ImageUploader, { ImageUploaderHandle } from '@/components/ImageUploader'
+import axios from '@/lib/axios'
 
 export default function NewArticlePage() {
     const router = useRouter()
@@ -15,6 +16,8 @@ export default function NewArticlePage() {
         content: '',
         tags: '',
     })
+
+    const slugTimerRef = useRef<NodeJS.Timeout | null>(null)
 
     const [loading, setLoading] = useState(false)
 
@@ -30,17 +33,28 @@ export default function NewArticlePage() {
         const { name, value } = e.target
 
         if (name === 'title') {
-            const generatedSlug = value
+            const rawSlug = value
                 .toLowerCase()
                 .trim()
-                .replace(/[^\w\u0E00-\u0E7F\s-]/g, '') // ลบอักขระพิเศษ ยกเว้นไทย
-                .replace(/\s+/g, '-') // แทน space ด้วย dash
+                .replace(/[^\w\u0E00-\u0E7F\s-]/g, '')
+                .replace(/\s+/g, '-')
 
-            setForm((prev) => ({
-                ...prev,
-                title: value,
-                slug: generatedSlug,
-            }))
+            setForm((prev) => ({ ...prev, title: value }))
+
+            // ✅ ถ้า slug ว่างไม่ต้องเช็ค
+            if (rawSlug === '') {
+                setForm((prev) => ({ ...prev, slug: '' }))
+                return
+            }
+
+            if (slugTimerRef.current) {
+                clearTimeout(slugTimerRef.current)
+            }
+
+            slugTimerRef.current = setTimeout(async () => {
+                const uniqueSlug = await generateUniqueSlug(rawSlug)
+                setForm((prev) => ({ ...prev, slug: uniqueSlug }))
+            }, 500)
         } else {
             setForm((prev) => ({
                 ...prev,
@@ -48,6 +62,26 @@ export default function NewArticlePage() {
             }))
         }
     }
+
+
+    const generateUniqueSlug = async (baseSlug: string): Promise<string> => {
+        let slug = baseSlug
+        let counter = 1
+
+        while (true) {
+            try {
+                const res = await axios.get(`/articles/check-slug?slug=${slug}`)
+                if (!res.data.exists) {
+                    return slug // ใช้ slug นี้ได้
+                }
+                slug = `${baseSlug}-${counter++}`
+            } catch (err) {
+                console.error('Error checking slug', err)
+                return baseSlug // fallback ถ้าเช็คไม่ได้
+            }
+        }
+    }
+
 
 
     const handleSubmit = async (e: React.FormEvent) => {

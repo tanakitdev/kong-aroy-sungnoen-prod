@@ -23,6 +23,14 @@ router.get('/', async (req, res) => {
   }
 })
 
+router.get('/check-slug', async (req, res) => {
+  const slug = req.query.slug
+  if (!slug) return res.status(400).json({ message: 'Missing slug' })
+
+  const found = await Article.findOne({ slug })
+  res.json({ exists: !!found })
+})
+
 // 🔹 GET: ดึงบทความตาม slug
 router.get('/:slug', async (req, res) => {
   try {
@@ -35,6 +43,8 @@ router.get('/:slug', async (req, res) => {
     res.status(500).json({ message: 'เกิดข้อผิดพลาด' })
   }
 })
+
+
 
 // 🔹 POST: เพิ่มบทความ
 router.post('/', async (req, res) => {

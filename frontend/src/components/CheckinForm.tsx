@@ -25,24 +25,35 @@ export default function CheckinForm() {
     const router = useRouter()
 
     useEffect(() => {
+        fetchShops();
+    }, [])
 
-
-        const fetchShops = async () => {
-            try {
-                const res = await axios.get("/shops/search", {
-                    params: { q: query }
-                });
-                setAllShops(res.data.data || []);
-            } catch (err) {
-                console.error("load shop error", err);
-            }
-        };
-
-        if (query.length >= 1) {
-            fetchShops();
-        } else {
-            setAllShops([]);
+    const fetchShops = async () => {
+        try {
+            const res = await axios.get("/shops/search", {
+                params: { q: query }
+            });
+            setAllShops(res.data.data || []);
+        } catch (err) {
+            console.error("load shop error", err);
         }
+    };
+
+    // useEffect(() => {
+    //     if (query.length >= 1) {
+    //         fetchShops();
+    //     } else {
+    //         setAllShops([]);
+    //     }
+    // }, [query]);
+
+    // ตั้ง delay
+    useEffect(() => {
+        const delayDebounce = setTimeout(() => {
+            fetchShops();
+        }, 500); // ← ดีเลย์ 500 มิลลิวินาที
+
+        return () => clearTimeout(delayDebounce); // ล้าง timeout ถ้าผู้ใช้ยังพิมพ์อยู่
     }, [query]);
 
     const filteredShops =
@@ -232,7 +243,6 @@ export default function CheckinForm() {
                 </>}
 
             </button>
-
             <button
                 type="button"
                 className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 ml-2"
@@ -244,7 +254,10 @@ export default function CheckinForm() {
                 </div>
 
             </button>
-            
+
+
         </form>
+
+
     )
 }

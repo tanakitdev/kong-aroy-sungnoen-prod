@@ -33,14 +33,14 @@ export default function Navbar() {
               <Search size={20} />
               ค้นหาร้านอาหาร
             </Link>
+
+            <Link href="/about" className="text-nowrap text-sm text-gray-700 hover:text-orange-400">เกี่ยวกับเรา</Link>
+            <Link href="/privacy-policy" className="text-nowrap text-sm text-gray-700 hover:text-orange-400">นโยบาย</Link>
+            <Link href="/contact" className="text-nowrap text-sm text-gray-700 hover:text-orange-400">ติดต่อเรา</Link>
+            
             {isLoggedIn ? (
               <>
                 <Link href="/dashboard" className="text-nowrap text-sm text-gray-700 hover:text-orange-400">แนะนำร้าน</Link>
-
-                <Link href="/about" className="text-nowrap text-sm text-gray-700 hover:text-orange-400">เกี่ยวกับเรา</Link>
-                <Link href="/privacy-policy" className="text-nowrap text-sm text-gray-700 hover:text-orange-400">นโยบาย</Link>
-                <Link href="/contact" className="text-nowrap text-sm text-gray-700 hover:text-orange-400">ติดต่อเรา</Link>
-
                 <Link href="/profile" className="text-nowrap text-sm text-gray-700 hover:text-orange-400">
                   โปรไฟล์ของฉัน
                 </Link>

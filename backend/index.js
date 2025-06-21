@@ -25,13 +25,6 @@ app.use(
 
 // app.use(
 //   cors({
-//     origin: "https://www.xn--22cka6ea5cg1dxabb2gyc9e8e.com", // หรือชื่อ domain ของ frontend
-//     credentials: true,               // ✅ สำคัญ
-//   })
-// );
-
-// app.use(
-//   cors({
 //     origin: true,
 //     credentials: true,
 //   })

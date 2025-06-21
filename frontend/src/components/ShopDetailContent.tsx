@@ -7,6 +7,7 @@ import {
     LineShareButton,
     LineIcon
 } from 'next-share'
+import { Heart } from "lucide-react"
 
 type Checkin = {
     _id: string
@@ -55,10 +56,10 @@ export default function ShopDetailContent({ shop, menus }: Props) {
     const visibleMenus = showAllMenu ? menus : menus.slice(0, 5)
     const visibleCheckins = showAll ? checkins : checkins.slice(0, 5)
 
-    const maskPhone = (phone: string) => {
-        if (!phone || phone.length < 9) return "ไม่ระบุเบอร์"
-        return `******${phone.slice(-4)}`
-    }
+    // const maskPhone = (phone: string) => {
+    //     if (!phone || phone.length < 9) return "ไม่ระบุเบอร์"
+    //     return `******${phone.slice(-4)}`
+    // }
 
 
     return (
@@ -202,20 +203,26 @@ export default function ShopDetailContent({ shop, menus }: Props) {
                         <p className="text-gray-500">ร้านนี้ยังไม่มีการ Check-in</p>
                     ) : (
                         <>
-                            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <ul className="grid grid-cols-1 gap-2">
                                 {visibleCheckins.map((c) => (
-                                    <li key={c._id} className="border p-3 rounded shadow-sm">
+                                    <li key={c._id} className="border-b p-3 ">
+
+                                        <p className="text-lg">{c.userName || "ผู้ใช้ไม่ระบุตัวตน"}</p>
+                                        <p className="text-sm text-gray-700">{c.caption || "ไม่มีคำบรรยาย"}</p>
+                                        <p className="text-xs text-gray-500 mt-1">
+                                            {new Date(c.createdAt).toLocaleDateString("th-TH")} {new Date(c.createdAt).getHours()}:{new Date(c.createdAt).getMinutes()} น.
+                                        </p>
+
                                         <img
                                             src={c.imageUrl}
                                             alt={c.caption}
-                                            className="w-full h-32 object-cover rounded mb-2"
+                                            className="w-32 h-32 object-cover rounded pt-4"
                                         />
-                                        <p className="text-lg">{c.shopName || "ไม่มีคำบรรยาย"}</p>
-                                        <p className="text-sm text-gray-700">{c.caption || "ไม่มีคำบรรยาย"}</p>
-                                        <p className="text-xs text-gray-500 mt-1">
-                                            โดย {c.userName} {maskPhone(c.userPhone)} - {new Date(c.createdAt).toLocaleDateString("th-TH")}
-
-                                        </p>
+                                        <button>
+                                            <div className="flex items-center text-orange-500 mt-4">
+                                                <Heart size={20}/> <span className="pl-1">0</span>
+                                            </div>
+                                        </button>
                                     </li>
                                 ))}
                             </ul>

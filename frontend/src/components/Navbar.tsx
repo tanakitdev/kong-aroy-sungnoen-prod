@@ -23,8 +23,15 @@ export default function Navbar() {
     <nav className="bg-white border-b">
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center h-16">
-          <Link href="/" className="flex items-center gap-2">
-            <Image src="/logo_transparent.png" objectFit="objectFit" width={140} height={48} alt="โลโก้ ของอร่อยสูงเนิน" />
+          <Link href="/" className="relative w-40 h-20">
+            <Image
+              src="/logo_transparent.png"
+              alt="โลโก้ ของอร่อยสูงเนิน"
+              fill
+              className="object-contain"
+              priority
+              sizes="160px"
+            />
           </Link>
 
           {/* Desktop Menu */}
@@ -35,10 +42,10 @@ export default function Navbar() {
             </Link>
 
             {isLoggedIn && (
-            <>
-              <Link href="/dashboard" className="text-nowrap text-sm text-gray-700 hover:text-orange-400">แนะนำร้าน</Link>
-            </>
-          )}
+              <>
+                <Link href="/dashboard" className="text-nowrap text-sm text-gray-700 hover:text-orange-400">แนะนำร้าน</Link>
+              </>
+            )}
 
             <Link href="/about" className="text-nowrap text-sm text-gray-700 hover:text-orange-400">เกี่ยวกับเรา</Link>
             <Link href="/privacy-policy" className="text-nowrap text-sm text-gray-700 hover:text-orange-400">นโยบาย</Link>

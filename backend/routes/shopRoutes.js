@@ -12,6 +12,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET || "",
 })
 
+// เรียง /api/shops แบบธรรมดา
 router.get("/", async (req, res) => {
   const { search, category, status, page = 1, limit = 6 } = req.query;
 
@@ -24,6 +25,7 @@ router.get("/", async (req, res) => {
   try {
     // ค้นหาจากร้าน + เมนู
     const shops = await Shop.find(filter)
+      .sort({ updatedAt: -1, popularityScore: -1 })
       .populate("menus")
       .exec();
 
@@ -108,10 +110,29 @@ router.get("/by-user", async (req, res) => {
 
 // GET /api/shops/top
 router.get("/top", async (req, res) => {
+  const { limit = 5 } = req.query;
+
   try {
     const shops = await Shop.find({})
       .sort({ popularityScore: -1 }) // หรือ .limit(10) ถ้ามี field นี้
-      .limit(10)
+      .limit(limit)
+      .exec();
+
+    res.json(shops);
+  } catch (err) {
+    console.error("Error fetching top shops:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// ร้านใหม่มามาแรง
+router.get("/latest", async (req, res) => {
+  const { limit = 5 } = req.query;
+
+  try {
+    const shops = await Shop.find({})
+      .sort({ createdAt: -1 }) // หรือ .limit(10) ถ้ามี field นี้
+      .limit(limit)
       .exec();
 
     res.json(shops);

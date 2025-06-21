@@ -103,7 +103,7 @@ export default function BrowseShopsPage({ shopLists }: Props) {
           category,
           status,
           page,
-          limit: 6,
+          limit: 8,
         },
       })
 
@@ -181,7 +181,7 @@ export default function BrowseShopsPage({ shopLists }: Props) {
         ) : (
           <>
             {shops.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6">
                 {shops.map((shop, index) => (
                   <ShopCard key={index} shop={shop} />
                 ))}
@@ -194,19 +194,6 @@ export default function BrowseShopsPage({ shopLists }: Props) {
 
         )}
 
-        {/* Load More */}
-        {/* {!isLoading && page < totalPages && (
-          <div className="text-center mt-6">
-            <button
-              onClick={() => {
-                setPage(page + 1)
-              }}
-              className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600"
-            >
-              โหลดเพิ่ม
-            </button>
-          </div>
-        )} */}
       </div>
 
       {shopId && (

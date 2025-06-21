@@ -33,7 +33,7 @@ const shopSchema = new mongoose.Schema({
     type: String,
     required: false, // ถ้าอยากให้บังคับใส่ เปลี่ยนเป็น true
   },
-  popularityScore: {
+  popularityScore: { // รวมทั้งหมดตลอดกาล
     type: Number,
     default: 0,
   },
@@ -43,6 +43,8 @@ const shopSchema = new mongoose.Schema({
       ref: "Menu",
     },
   ],
+}, {
+  timestamps: true,
 });
 
 // เพิ่ม index สำหรับค้นหาชื่อร้านและหมวดหมู่

@@ -107,7 +107,7 @@ export default function Home() {
 
   const loadArticles = async () => {
     try {
-      const res = await axios.get("/articles?limit=3")
+      const res = await axios.get("/articles?limit=6")
       setArticles(res.data)
     } catch (err) {
       console.error("โหลดบทความล้มเหลว", err)
@@ -116,7 +116,11 @@ export default function Home() {
 
   const loadTopShops = async () => {
     try {
-      const res = await axios.get("/shops/top")
+      const res = await axios.get("/shops/top", {
+        params: {
+          limit: 5
+        }
+      })
       setTopShops(res.data)
     } catch (err) {
       console.error("โหลดร้านยอดนิยมล้มเหลว", err)
@@ -129,22 +133,21 @@ export default function Home() {
   //   loadArticles()
   // }, [])
 
-  const maskPhone = (phone: string) => {
-    if (!phone || phone.length < 9) return "ไม่ระบุเบอร์"
-    return `******${phone.slice(-4)}`
-  }
+  // const maskPhone = (phone: string) => {
+  //   if (!phone || phone.length < 9) return "ไม่ระบุเบอร์"
+  //   return `******${phone.slice(-4)}`
+  // }
 
   return (
     <main className="bg-gray-50 text-gray-800">
       {/* Hero Section */}
-      <div className="relative w-full h-60 md:h-72 overflow-hidden">
+      <div className="relative w-full h-60 md:h-70 overflow-hidden">
         <Image
           src="/train_logo.jpg"
           alt="ของอร่อยสูงเนิน"
-          layout="fill"
-          objectFit="cover"
+          fill
+          className="object-cover"
           priority
-        // className="hidden md:block"
         />
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 px-4 py-10 md:absolute md:inset-0 md:flex md:items-center md:justify-center text-white text-center md:bg-transparent">
@@ -166,14 +169,14 @@ export default function Home() {
       </div>
 
       {/* Check-ins + Promoters Section */}
-      <section className="max-w-6xl mx-auto px-4 md:py-12 py-10">
+      <section className="max-w-6xl mx-auto px-4 mt-6">
         <div className="flex flex-col md:flex-row gap-6">
           {/* Left: Check-ins */}
           <div className="md:w-2/3">
 
             {/* เช็คอินล่าสุด */}
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-semibold text-gray-700 mb-6">เช็คอินล่าสุด</h2>
+              <h2 className="text-2xl font-semibold text-gray-700 mb-4">เช็คอินล่าสุด</h2>
             </div>
 
             <div className="relative">
@@ -190,7 +193,7 @@ export default function Home() {
               {/* รายการเช็คอินแนวนอน */}
               <div
                 ref={scrollRef}
-                className="overflow-x-auto flex gap-4 pb-2 scroll-smooth px-6 hide-scrollbar py-2"
+                className="overflow-x-auto flex gap-2 pb-2 scroll-smooth px-6 hide-scrollbar py-2"
               >
                 {checkins.map(item => (
                   <Link
@@ -198,12 +201,23 @@ export default function Home() {
                     href={`/shop/${item.shopId}`}
                     className="flex-shrink-0 w-44 rounded-md overflow-hidden shadow bg-white hover:shadow-md transition"
                   >
-                    <div className="w-44 h-44 relative">
+                    {/* <div className="w-44 h-44 relative">
                       <Image
                         src={item.imageUrl}
                         alt={item.shopName}
                         fill
                         className="object-cover"
+                      />
+                    </div> */}
+
+                    <div className="relative w-44 h-44">
+                      <Image
+                        src={item.imageUrl}
+                        alt={item.shopName}
+                        fill
+                        className="object-cover duration-300 hover:scale-[1.06]"
+                        priority
+                        sizes="300px"
                       />
                     </div>
 
@@ -217,7 +231,7 @@ export default function Home() {
                     <div className="p-2">
                       <h3 className="text-sm font-semibold text-gray-900 truncate">{item.shopName}</h3>
                       <p className="text-xs text-gray-800 truncate">{item.caption || 'ไม่มีข้อความ'}</p>
-                      <p className="text-xs text-gray-800 truncate">{item.userName} {maskPhone(item.userPhone) || "ไม่มีข้อความ"}</p>
+                      {/* <p className="text-xs text-gray-800 truncate">{item.userName} {maskPhone(item.userPhone) || "ไม่มีข้อความ"}</p> */}
                     </div>
                   </Link>
                 ))}
@@ -238,7 +252,8 @@ export default function Home() {
             <div >
               <h2 className="text-2xl font-semibold text-gray-700 mt-10 mb-6">📚 บทความล่าสุด</h2>
               <div className="grid md:grid-cols-3 gap-6">
-                {articles.map(article => (
+
+                {articles.map((article) => (
                   <Link
                     key={article._id}
                     href={`/dashboard/articles/${article.slug}`}
@@ -271,32 +286,8 @@ export default function Home() {
           {/* Right: Promoters */}
           <div className="md:w-1/3">
 
-            <h2 className="text-xl font-semibold mb-4 text-gray-700">ได้รับการสนับสนุน</h2>
-            <div className="space-y-3 mb-8">
-              {promoters.map(promoter => (
-                <Link
-                  href={promoter.linkProfile}
-                  target={promoter.linkProfile !== '/' ? "_blank" : "_parent"}
-                  key={promoter._id}
-                  className="bg-white border border-gray-100 shadow-sm rounded-md overflow-hidden flex items-center p-2 gap-3"
-                >
-                  <Image
-                    src={promoter.imageUrl}
-                    alt={promoter.p_name}
-                    width={48}
-                    height={48}
-                    className="w-14 h-14 object-cover rounded"
-                  />
-                  <div className="flex-1">
-                    <h3 className="text-sm font-medium text-gray-800">{promoter.p_name}</h3>
-                    <p className="text-xs text-gray-500 line-clamp-2">{promoter.description}</p>
-                  </div>
-                </Link>
-              ))}
-            </div>
-
             {/* 🔥 ร้านยอดนิยม */}
-            <h2 className="text-xl font-semibold mb-4 text-gray-700 mt-10 md:mt-1">ร้านยอดนิยม 10 อันดับ</h2>
+            <h2 className="text-xl font-semibold mb-4 text-gray-700 mt-4 md:mt-1">ร้านยอดนิยม</h2>
             <div className="space-y-1 mb-8">
 
               {topShops.map((shop, index) => (
@@ -328,6 +319,31 @@ export default function Home() {
                 </Link>
               ))}
             </div>
+
+            <h2 className="text-xl font-semibold mb-4 text-gray-700">ได้รับการสนับสนุน</h2>
+            <div className="space-y-3 mb-8">
+              {promoters.map(promoter => (
+                <Link
+                  href={promoter.linkProfile}
+                  target={promoter.linkProfile !== '/' ? "_blank" : "_parent"}
+                  key={promoter._id}
+                  className="bg-white border border-gray-100 shadow-sm rounded-md overflow-hidden flex items-center p-2 gap-3"
+                >
+                  <Image
+                    src={promoter.imageUrl}
+                    alt={promoter.p_name}
+                    width={48}
+                    height={48}
+                    className="w-14 h-14 object-cover rounded"
+                  />
+                  <div className="flex-1">
+                    <h3 className="text-sm font-medium text-gray-800">{promoter.p_name}</h3>
+                    <p className="text-xs text-gray-500 line-clamp-2">{promoter.description}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+
           </div>
         </div>
       </section>

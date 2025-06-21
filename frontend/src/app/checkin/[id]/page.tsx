@@ -74,8 +74,9 @@ export default async function CheckinDetailPage({ params }: Props) {
                         src={checkin.imageUrl}
                         alt={checkin.caption || "checkin"}
                         width={800}
-                        height={600}
-                        className="rounded-lg shadow"
+                        height={450}
+                        priority
+                        className="rounded-lg shadow object-contain"
                     />
                 )}
             </div>

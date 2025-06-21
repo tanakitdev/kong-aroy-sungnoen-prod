@@ -52,6 +52,7 @@ export default function ProfilePage() {
                                     alt="Check-in"
                                     width={800}
                                     height={400}
+                                    priority
                                     className="w-full h-48 object-cover transition hover:scale-[1.01]"
                                 />
                             </Link>

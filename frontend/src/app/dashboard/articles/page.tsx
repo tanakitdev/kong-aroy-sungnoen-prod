@@ -39,6 +39,7 @@ export default function ArticlesPage() {
                                 width={800}
                                 height={450}
                                 alt={article.title}
+                                priority
                                 className="rounded mb-2 object-cover w-full h-[200px]"
                             />
                             <h2 className="text-lg font-semibold">{article.title}</h2>

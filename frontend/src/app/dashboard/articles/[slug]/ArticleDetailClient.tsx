@@ -31,6 +31,7 @@ export default function ArticleDetailClient({ article }: { article: Article }) {
                     alt={article.title}
                     width={960}
                     height={540}
+                    priority
                     className="w-full h-auto rounded-md mb-6 object-cover"
                 />
             )}

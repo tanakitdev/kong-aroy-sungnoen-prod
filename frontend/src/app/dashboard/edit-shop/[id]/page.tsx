@@ -101,19 +101,32 @@ export default function EditShop() {
         try {
             // ลบภาพเก่า (ถ้ามี)
             // เกิดปัญหาต้องรอรูปอัพโหลด preview เสร็จก่อนอัพเดท ต้อง disabled ปุ่ม
-            if (oldImage) {
-                await deleteImageFromCloudinary(oldImage)
-            }
+            // if (oldImage) {
+            //     // await deleteImageFromCloudinary(oldImage)
+            //     // console.log(oldImage);
+            // }
 
-            let imageUrl = null;
+
             if (file) {
-                imageUrl = await uploadImageToCloudinary(file)
+                // let imageUrl = null;
+                const imageUrl = await uploadImageToCloudinary(file)
+                await axios.patch(`/shops/${id}`, {
+                    ...formData,
+                    image: imageUrl,
+                })
+                if (oldImage) {
+                    await deleteImageFromCloudinary(oldImage)
+                    console.log(oldImage);
+                }
+            } else {
+                await axios.patch(`/shops/${id}`, {
+                    ...formData
+                })
             }
 
-            await axios.patch(`/shops/${id}`, {
-                ...formData,
-                image: imageUrl,
-            })
+            // await axios.patch(`/shops/${id}`, {
+            //     ...formData
+            // })
 
             router.push('/dashboard')
         } catch (err) {

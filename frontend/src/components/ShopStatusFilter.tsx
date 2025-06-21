@@ -19,7 +19,7 @@ export default function ShopStatusFilter({ status, setStatus, setDefault }: Prop
                     : "bg-white border-gray-700 text-gray-500"
                     }`}
             >
-                ⏱ เปิดตอนนี้
+                เปิดตอนนี้
             </button>
 
             <button

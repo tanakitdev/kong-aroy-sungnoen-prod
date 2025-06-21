@@ -9,14 +9,34 @@ dotenv.config();
 
 const app = express();
 app.use(cookieParser()); // ✅ ทำให้ req.cookies ใช้งานได้
+
 app.use(
   cors({
-    // origin: "http://localhost:3000", // หรือชื่อ domain ของ frontend
-    // origin: "192.168.1.8:3000", // หรือชื่อ domain ของ frontend
-    origin: "https://www.xn--22cka6ea5cg1dxabb2gyc9e8e.com", // หรือชื่อ domain ของ frontend
-    credentials: true,               // ✅ สำคัญ
+    origin: [
+      "https://www.xn--22cka6ea5cg1dxabb2gyc9e8e.com",
+      "http://localhost:3000",
+      "http://127.0.0.1:3000",
+    ],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Origin', 'Content-Type', 'Accept', 'Authorization', 'X-Requested-With'],
   })
 );
+
+// app.use(
+//   cors({
+//     origin: "https://www.xn--22cka6ea5cg1dxabb2gyc9e8e.com", // หรือชื่อ domain ของ frontend
+//     credentials: true,               // ✅ สำคัญ
+//   })
+// );
+
+// app.use(
+//   cors({
+//     origin: true,
+//     credentials: true,
+//   })
+// );
+
 app.use(express.json());
 
 // ✅ ใช้งาน route

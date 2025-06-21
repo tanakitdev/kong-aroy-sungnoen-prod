@@ -16,6 +16,8 @@ app.use(
       "https://www.xn--22cka6ea5cg1dxabb2gyc9e8e.com",
       "http://localhost:3000",
       "http://127.0.0.1:3000",
+      "http://127.0.0.1:9101", // Flutter web
+      "http://localhost:9101", // Flutter web
     ],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],

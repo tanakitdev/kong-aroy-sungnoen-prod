@@ -31,10 +31,11 @@ const articleSchema = new Schema(
         ref: 'Shop',
       },
     ],
-    authorId: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
-    },
+    // authorId: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: 'User',
+    // },
+    authorId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false }, // Flutter test
     publishedAt: {
       type: Date,
     },

@@ -7,7 +7,9 @@ import {
     LineShareButton,
     LineIcon
 } from 'next-share'
-import { Heart } from "lucide-react"
+import { ChevronLeft, Heart, MapPinPlus } from "lucide-react"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 type Checkin = {
     _id: string
@@ -45,6 +47,8 @@ export default function ShopDetailContent({ shop, menus }: Props) {
     const [showAll, setShowAll] = useState(false)
     const [showAllMenu, setShowAllMenu] = useState(false)
 
+    const router = useRouter();
+
     useEffect(() => {
         const loadCheckins = async () => {
             const res = await axios.get(`/checkins/by-shop?shopId=${shop._id}`)
@@ -64,6 +68,21 @@ export default function ShopDetailContent({ shop, menus }: Props) {
 
     return (
         <div>
+
+            <button
+                onClick={() => {
+                    router.back()
+                    document.body.classList.remove("overflow-y-hidden")
+                }}
+                className="fixed top-16 left-4 bg-orange-500 hover:bg-orange-600 text-white px-2 py-1 rounded-full shadow-lg transition "
+            >
+                <div className="flex items-center">
+                    <ChevronLeft size={24} />
+                    <span className="text-[16px]">ย้อนกลับ</span>
+                </div>
+
+            </button>
+
             <img
                 src={shop.image}
                 alt={shop.name}
@@ -220,7 +239,7 @@ export default function ShopDetailContent({ shop, menus }: Props) {
                                         />
                                         <button>
                                             <div className="flex items-center text-orange-500 mt-4">
-                                                <Heart size={20}/> <span className="pl-1">0</span>
+                                                <Heart size={20} /> <span className="pl-1">0</span>
                                             </div>
                                         </button>
                                     </li>
@@ -238,6 +257,20 @@ export default function ShopDetailContent({ shop, menus }: Props) {
                     )}
                 </div>
             </div>
+
+            {/* Floating Action Button */}
+            <Link
+                href={`/checkin?shopId=${shop._id}`}
+                className="fixed bottom-6 right-6 bg-orange-500 hover:bg-orange-600 text-white p-4 rounded-full shadow-lg transition "
+                title="เช็คอินร้านใหม่"
+            >
+                <div className="flex flex-col items-center">
+                    <MapPinPlus size={28} />
+                    <span className="text-[10px]">Check In</span>
+                </div>
+
+            </Link>
+
         </div>
     )
 }

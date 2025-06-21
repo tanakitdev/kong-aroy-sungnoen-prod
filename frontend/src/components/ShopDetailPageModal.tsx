@@ -4,8 +4,8 @@ import { useEffect, useState } from "react"
 import axios from "@/lib/axios"
 
 import ShopDetailContent from "@/components/ShopDetailContent"
-import Link from "next/link";
-import { MapPinPlus } from "lucide-react";
+// import Link from "next/link";
+// import { MapPinPlus } from "lucide-react";
 
 type Shop = {
   _id: string
@@ -81,27 +81,13 @@ export default function ShopDetailPageModal({
       >
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-white text-6xl z-50 hover:opacity-80 transition"
+          className="absolute top-2 right-4 text-orange-100 text-6xl z-50 hover:opacity-80 transition"
         >
           <div>&times;</div>
         </button>
 
         <ShopDetailContent shop={shop} menus={menus} />
       </div>
-
-
-      {/* Floating Action Button */}
-      <Link
-        href="/checkin"
-        className="fixed bottom-6 right-6 bg-orange-500 hover:bg-orange-600 text-white p-4 rounded-full shadow-lg transition "
-        title="เช็คอินร้านใหม่"
-      >
-        <div className="flex flex-col items-center">
-          <MapPinPlus size={28} />
-          <span className="text-[10px]">Check In</span>
-        </div>
-
-      </Link>
 
 
     </div>

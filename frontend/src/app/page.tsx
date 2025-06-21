@@ -304,11 +304,11 @@ export default function Home() {
                       height={48}
                       className="w-14 h-14 object-cover rounded"
                     />
-                    {index + 1 <= 3 && (
+                    {/* {index + 1 <= 3 && (
                       <span className="absolute -top-2 -left-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
                         {index + 1}
                       </span>
-                    )}
+                    )} */}
 
                   </div>
                   <div className="flex-1">

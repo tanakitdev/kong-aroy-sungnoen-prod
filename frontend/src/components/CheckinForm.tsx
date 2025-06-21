@@ -3,7 +3,7 @@
 import { useState, useEffect, Fragment } from "react"
 import axios from "@/lib/axios"
 import Image from "next/image"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { Combobox, Transition } from "@headlessui/react"
 import { Check, ChevronDown, Edit, MoveLeft } from "lucide-react"
 
@@ -23,10 +23,29 @@ export default function CheckinForm() {
     const [uploading, setUploading] = useState(false)
 
     const router = useRouter()
+    const searchParams = useSearchParams()
+    const shopIdFromUrl = searchParams.get("shopId")
 
     useEffect(() => {
         fetchShops();
     }, [])
+
+    useEffect(() => {
+        const fetchSelectedShop = async () => {
+            if (!shopIdFromUrl) return
+
+            try {
+                const res = await axios.get(`/shops/${shopIdFromUrl}`)
+                if (res.data) {
+                    setSelectedShop(res.data)
+                }
+            } catch (err) {
+                console.error("ไม่พบร้านจาก shopId", err)
+            }
+        }
+
+        fetchSelectedShop()
+    }, [shopIdFromUrl])
 
     const fetchShops = async () => {
         try {

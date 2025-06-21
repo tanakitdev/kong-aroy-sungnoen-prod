@@ -1,6 +1,8 @@
 "use client"
 
+import { ChevronLeft } from "lucide-react"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 
 type Article = {
@@ -13,12 +15,29 @@ type Article = {
 }
 
 export default function ArticleDetailClient({ article }: { article: Article }) {
+    const router = useRouter();
+
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [])
 
     return (
         <main className="max-w-3xl mx-auto p-4">
+
+            <button
+                onClick={() => {
+                    router.back()
+                    document.body.classList.remove("overflow-y-hidden")
+                }}
+                className="fixed top-16 left-4 bg-orange-500 hover:bg-orange-600 text-white px-2 py-1 rounded-full shadow-lg transition "
+            >
+                <div className="flex items-center">
+                    <ChevronLeft size={24} />
+                    <span className="text-[16px]">ย้อนกลับ</span>
+                </div>
+
+            </button>
+
             <h1 className="text-3xl font-bold text-gray-800 mb-4">{article.title}</h1>
 
             <p className="text-sm text-gray-500 mb-4">

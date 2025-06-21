@@ -290,7 +290,7 @@ export default function Home() {
             <h2 className="text-xl font-semibold mb-4 text-gray-700 mt-4 md:mt-1">ร้านยอดนิยม</h2>
             <div className="space-y-1 mb-8">
 
-              {topShops.map((shop, index) => (
+              {topShops.map((shop) => (
                 <Link
                   key={shop._id}
                   href={`/shop/${shop._id}`}

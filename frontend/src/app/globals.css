@@ -11,6 +11,15 @@
   scrollbar-width: none;
 }
 
+h1 {
+  font-size: inherit;
+  font-weight: normal;
+}
+
+.prose p {
+  margin-bottom: 1.5em;
+  /* หรือ 2em ตามต้องการ */
+}
 
 @layer base {
   ::-webkit-scrollbar {

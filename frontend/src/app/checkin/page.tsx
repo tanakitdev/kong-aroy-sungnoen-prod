@@ -1,40 +1,24 @@
 // app/checkin/page.tsx
-"use client"
+import { auth } from "@/lib/auth.config";
+import { redirect } from "next/navigation";
+import CheckinForm from "@/components/CheckinForm";
 
-import React, { useEffect } from "react"
-import CheckinForm from "@/components/CheckinForm"
-import { useAuth } from '@/context/AuthContext'
-import { useRouter } from "next/navigation"
+type Props = {
+  searchParams: { shopId?: string };
+};
 
-export default function CheckinPage() {
-    const { isLoggedIn, isCheckingAuth } = useAuth()
-    const router = useRouter()
+export default async function CheckinPage({ searchParams }: Props) {
+  const session = await auth();
 
-    useEffect(() => {
-        if (!isCheckingAuth && !isLoggedIn) {
-            router.push(`/login?from=checkin`)
-        }
-    }, [isLoggedIn, isCheckingAuth, router])
+  if (!session?.user) {
+    const shopId = searchParams.shopId;
+    redirect(`/login?from=checkin${shopId ? `&shopId=${shopId}` : ""}`);
+  }
 
-    if (isCheckingAuth) {
-        return (
-            <div className="text-center py-20 text-gray-500">
-                กำลังตรวจสอบสิทธิ์ผู้ใช้...
-            </div>
-        )
-    }
-    // useEffect(() => {
-    //     if (!isLoggedIn) {
-    //         logout();
-    //         router.push(`/login?from=checkin`)
-    //     }
-
-    // }, [isLoggedIn, logout, router])
-
-    return (
-        <div className="max-w-2xl mx-auto p-4">
-            <h1 className="text-2xl font-bold mb-4">เช็คอินร้านอาหาร</h1>
-            {isLoggedIn && <CheckinForm />}
-        </div>
-    )
+  return (
+    <div className="max-w-2xl mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">เช็คอินร้านอาหาร</h1>
+      <CheckinForm />
+    </div>
+  );
 }

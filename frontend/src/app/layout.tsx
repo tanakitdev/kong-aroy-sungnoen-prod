@@ -9,6 +9,7 @@ import Footer from "@/components/Footer"
 
 // import Link from "next/link"
 // import { Edit } from "lucide-react"
+import Providers from "./providers" // 👈 นำเข้า Providers
 
 export const metadata = {
   title: "ของอร่อยสูงเนิน",
@@ -60,16 +61,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7442679079181049"
           crossOrigin="anonymous"
         />
-        <AuthProvider>
-          <div className="flex flex-col min-h-screen">
-            <Navbar />
-            <main className="flex-1">
-              {children}
+        <Providers>
+          <AuthProvider>
+            <div className="flex flex-col min-h-screen">
+              <Navbar />
+              <main className="flex-1">
+                {children}
 
-            </main>
-            <Footer />
-          </div>
-        </AuthProvider>
+              </main>
+              <Footer />
+            </div>
+          </AuthProvider>
+        </Providers>
       </body>
     </html>
   )
